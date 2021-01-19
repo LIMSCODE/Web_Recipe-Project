@@ -77,7 +77,7 @@ public class MainController {
 		
 		
 		
-	     //멤버 랭킹
+	     //멤버 랭킹.
 		model.addAttribute("ranking", dao.ranking()); 
 		model.addAttribute("ranking1", dao.ranking1()); 
 		model.addAttribute("ranking2", dao.ranking2()); 
