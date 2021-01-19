@@ -67,25 +67,26 @@ public class MyPageController {
 	@RequestMapping("/mypage")
 	public String mypage(HttpServletRequest request, HttpSession session, Model model) {
 
-		// 濡쒓렇�씤而⑦듃濡ㅻ윭�뿉�꽌 setAttribute濡� �꽭�뀡�뿉 ���옣�븳 login媛앹껜瑜� dto濡� 遺덈윭�� �솕硫댁뿉 肉뚮━�옄.
-		MEMBERDTO dtos = (MEMBERDTO) session.getAttribute("login");
+		// 로그인컨트롤러에서 setAttribute로 세션에 저장한 login객체를 dto로 불러와 화면에 뿌리자.
+        MEMBERDTO dtos = (MEMBERDTO) session.getAttribute("login");
 		model.addAttribute("dtos", dtos);
 
-//		String id = request.getParameter("id");  //濡쒓렇�씤�맂�븘�씠�뵒�씪源�? (requst�뒗 �뤌�깭洹� 酉곗뿉�꽌 媛��졇�삱�븣�궗�슜)
-//		System.out.println(id); //null媛믩뱾�뼱媛�.
+//      String id = request.getParameter("id");  //로그인된아이디일까? (requst는 폼태그 뷰에서 가져올때사용)
+//      System.out.println(id); //null값들어감.
 
-		String id = dtos.getId(); // 濡쒓렇�씤�맂�븘�씠�뵒�씠�떎.
+		String id = dtos.getId(); // 로그인된아이디이다.
 		System.out.println(id);
-//		HashMap<String, String> map = new HashMap<String, String>();
-//		map.put("id", id); //id瑜� 留듭뿉 �떞怨�, id瑜� 留ㅺ컻蹂��닔濡� 留ㅽ띁dao�쑝濡� 蹂대궦�떎.
+//      HashMap<String, String> map = new HashMap<String, String>();
+//      map.put("id", id); //id를 맵에 담고, id를 매개변수로 매퍼dao으로 보낸다.
 
 		
 		
-		// �궡媛��벖湲� �쟾泥대텋�윭�삤湲�, �궡�븘�씠�뵒濡� �옉�꽦�맂 湲��쓣 �솕硫댁뿉 肉뚮젮以�.
+		 // 내가쓴글 전체불러오기, 내아이디로 작성된 글을 화면에 뿌려줌.
+
 		MYPAGEDAO dao = sqlSession.getMapper(MYPAGEDAO.class);
 		model.addAttribute("myrboard", dao.MyRBoard(id));
 		
-		//�궡媛� 醫뗭븘�슂�븳 湲� �쟾泥� 遺덈윭�삤湲�
+	    //내가 좋아요한 글 전체 불러오기
 		model.addAttribute("mylike", dao.MyLike(id));
 
 		return "/mypage";
@@ -97,12 +98,12 @@ public class MyPageController {
 
 		MEMBERDTO dto = (MEMBERDTO) session.getAttribute("login");
 
-		String id = dto.getId(); // 濡쒓렇�씤�맂�븘�씠�뵒�씠�떎.
+		String id = dto.getId(); // 로그인된아이디이다.
 		System.out.println(id);
 		
-		session.invalidate(); // �꽭�뀡 �걡�쓬 (珥덇린�솕)
+		session.invalidate(); // 세션 끊음 (초기화)
 		
-		//�젙蹂� 吏���
+	      //정보 지움
 		MYPAGEDAO dao =  sqlSession.getMapper(MYPAGEDAO.class);
 		dao.deletemember(id);
 
@@ -115,7 +116,7 @@ public class MyPageController {
 
 		MEMBERDTO dto = (MEMBERDTO) session.getAttribute("login");
 
-		String id = dto.getId(); // 濡쒓렇�씤�맂�븘�씠�뵒�씠�떎.
+		String id = dto.getId(); // 로그인된아이디이다.
 		System.out.println(id);
 
 	
@@ -127,16 +128,16 @@ public class MyPageController {
 			) throws IOException, Exception {
 		
 		
-		//濡쒓렇�씤 �꽭�뀡 遺덈윭�샂.
+		 //로그인 세션 불러옴.
 		MEMBERDTO dto1 = (MEMBERDTO) session.getAttribute("login");
 
-		String id = dto1.getId(); // 濡쒓렇�씤�맂�븘�씠�뵒�씠�떎.
+		String id = dto1.getId();  // 로그인된아이디이다.
 		System.out.println(id);
 		
 		
 		MEMBERDAO dao = sqlSession.getMapper(MEMBERDAO.class);
 
-		// �뤌�깭洹멸컪�뱾 �쟾�떖
+		  // 폼태그값들 전달
 		//String pw  = request.getParameter("pw");
 		
 		String inputPass = request.getParameter("pw");
@@ -148,7 +149,8 @@ public class MyPageController {
 	
 		
 		MEMBERDTO dto = new MEMBERDTO();
-		dto.setId(id);  //濡쒓렇�씤�꽭�뀡�뿉�꽌 媛��졇�삩 �쁽�옱濡쒓렇�씤�맂 �븘�씠�뵒. -�젙蹂댁닔�젙�븷 而⑦듃濡ㅻ윭�뿉 �꽆寃⑥꽌 �씠 �븘�씠�뵒�쓽 �젙蹂대�� �닔�젙�븳�떎.
+		dto.setId(id);  //로그인세션에서 가져온 현재로그인된 아이디. -정보수정할 컨트롤러에 넘겨서 이 아이디의 정보를 수정한다.
+
 		dto.setPw(pw);
 		dto.setName(name);
 		dto.setEmail(email);
@@ -160,7 +162,8 @@ public class MyPageController {
 		String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
 		String fileName = null;
 		
-		//蹂듬텤�뻽�뜑�땲 �뿉�윭�굹�꽌 �넀�닔爾먯빞�븿
+		//복붙했더니 에러나서 손수쳐야함
+
 		
 		if(file!=null) {
 			fileName= UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath);
