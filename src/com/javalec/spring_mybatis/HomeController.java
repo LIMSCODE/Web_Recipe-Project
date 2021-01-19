@@ -102,7 +102,7 @@ public class HomeController {
 	
 
 	
-	// rboard �뱾�뼱媛붿쓣�븣
+	  // rboard 들어갔을때
 	@RequestMapping(value = "/listSearchsendmail", method = RequestMethod.GET)
 	public String listSearchsendmail(@ModelAttribute("scri") SearchCriteria bs, HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model)
 			throws Exception {
@@ -130,13 +130,13 @@ public class HomeController {
 //		
 
 		
-		//寃��깋�븳 寃곌낵瑜� �럹�씠吏뺥븳�떎.
+	      //검색한 결과를 페이징한다.
 
 		List<RBOARDDTO> searchList = dao.listSearch(bs);
-		model.addAttribute("searchList", searchList);  //�떎�쓬酉곗뿉 dto瑜� 肉뚮┝.
+		model.addAttribute("searchList", searchList); 
 		
 
-		//�럹�씠吏�
+		  //페이징
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(bs);
 		pageMaker.setTotalCount(dao.countSearch(bs));
@@ -144,7 +144,7 @@ public class HomeController {
 		System.out.println(dao.countSearch(bs));   //媛��닔異쒕젰
 		model.addAttribute("pageMaker", pageMaker);
 		
-		//�럹�씠吏뺤쑀吏�
+	     //페이징유지
 		model.addAttribute("scri", bs); 
 		
 
@@ -152,7 +152,7 @@ public class HomeController {
 	}
 	
 	
-	//rboard 吏꾩엯�떆 議고쉶�닔�넂���닚�꽌 �젙�젹 而⑦듃濡ㅻ윭 留뚮벉
+	   //rboard 진입시 조회수높은순서 정렬 컨트롤러 만듬
 	@RequestMapping(value = "/listSearchreadcount", method = RequestMethod.GET)
 	public String orderbyreadcount(@ModelAttribute("scri") SearchCriteria cri, HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model)
 			throws Exception {
@@ -160,7 +160,7 @@ public class HomeController {
 		RBOARDDAO dao = sqlSession.getMapper(RBOARDDAO.class);
 
 		
-		//議고쉶�닔�넂���닚 �젙�젹
+	      //조회수높은순 정렬
 		List<RBOARDDTO> searchList = dao.orderbyreadcount(cri);
 		model.addAttribute("searchList", searchList);
 
@@ -169,7 +169,7 @@ public class HomeController {
 		pageMaker.setTotalCount(dao.listCount());
 		model.addAttribute("pageMaker", pageMaker);
 		
-		//�럹�씠吏� �쑀吏�
+	      //페이징 유지
 		model.addAttribute("scri", cri);
 
 		return  "/listSearchreadcount";
@@ -178,7 +178,7 @@ public class HomeController {
 	
 	
 	
-	// 寃��깋 - �빐�떦議곌굔�쑝濡� 李얘린 �닃���쓣�븣
+	   // 검색 - 해당조건으로 찾기 눌렀을때
 
 	@RequestMapping(value = "/listSearchsendmail123", method = RequestMethod.GET)
 	public String listSearchsendmail123(@ModelAttribute("scri") SearchCriteria bs,RedirectAttributes rttr, HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model)
@@ -204,21 +204,21 @@ public class HomeController {
 	
 		
 		
-		System.out.println(foodList);  //[鍮듬쪟]
-		System.out.println(countryList);  //[鍮듬쪟]
-		System.out.println(timeList);  //[鍮듬쪟]
+		System.out.println(foodList); //[빵류]
+		System.out.println(countryList);  //[빵류]
+		System.out.println(timeList);  //[빵류]
 	
 		System.out.println(SearchWord);
 		System.out.println(SearchType);
 		
 		
-		System.out.println(Arrays.toString(foodList));  //[鍮듬쪟]
-		System.out.println(Arrays.toString(countryList));  //[鍮듬쪟]
-		System.out.println(Arrays.toString(timeList));  //[鍮듬쪟]
+		System.out.println(Arrays.toString(foodList));  //[빵류]
+		System.out.println(Arrays.toString(countryList)); //[빵류]
+		System.out.println(Arrays.toString(timeList));  //[빵류]
 		
 	
 		
-		//forward�떆�궓�떎.
+	      //forward시킨다.
 		session.setAttribute("foodList",foodList);  
 		session.setAttribute("countryList",countryList); 
 		session.setAttribute("timeList",timeList); 
@@ -236,18 +236,18 @@ public class HomeController {
 		
 
 		List<RBOARDDTO> searchList = dao.listSearch(bs);
-		model.addAttribute("searchList", searchList);  //�떎�쓬酉곗뿉 dto瑜� 肉뚮┝.
+		model.addAttribute("searchList", searchList); //다음뷰에 dto를 뿌림.
 		
 
-		//�럹�씠吏�
+	      //페이징
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(bs);
 		pageMaker.setTotalCount(dao.countSearch(bs));
 		
-		System.out.println(dao.countSearch(bs));  //媛��닔 �뀍
+		System.out.println(dao.countSearch(bs));   //갯수 셈
 		model.addAttribute("pageMaker", pageMaker);
 		
-		//�럹�씠吏뺤쑀吏�
+	      //페이징유지
 		model.addAttribute("scri", bs); 
 
 		
@@ -258,7 +258,7 @@ public class HomeController {
 	
 
 	
-	// rboard �뱾�뼱媛붿쓣�븣
+	   // rboard 들어갔을때
 	@RequestMapping(value = "/listSearchsendmail2", method = RequestMethod.GET)
 	public String listSearchsendmail2(@ModelAttribute("scri") SearchCriteria bs, HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model)
 			throws Exception {
@@ -302,13 +302,13 @@ public class HomeController {
 		
 	
 		
-		//寃��깋�븳 寃곌낵瑜� �럹�씠吏뺥븳�떎.
+	      //검색한 결과를 페이징한다.
 
 		List<RBOARDDTO> searchList = dao.listSearch(bs);
 		model.addAttribute("searchList", searchList);  //�떎�쓬酉곗뿉 dto瑜� 肉뚮┝.
 		
 
-		//�럹�씠吏�
+	      //페이징
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(bs);
 		pageMaker.setTotalCount(dao.countSearch(bs));
@@ -316,7 +316,7 @@ public class HomeController {
 		System.out.println(dao.countSearch(bs));   //媛��닔異쒕젰
 		model.addAttribute("pageMaker", pageMaker);
 		
-		//�럹�씠吏뺤쑀吏�
+	      //페이징유지
 		model.addAttribute("scri", bs); 
 		
 
@@ -331,7 +331,7 @@ public class HomeController {
 	
 	
 	
-	//寃��깋�떆  議고쉶�닔�넂���닚�꽌 �젙�젹 而⑦듃濡ㅻ윭 留뚮벉
+	   //검색시  조회수높은순서 정렬 컨트롤러 만듬
 	@ResponseBody
 	@RequestMapping(value = "/listSearchreadcount123", method = RequestMethod.GET)
 	public String searchorderbyreadcount(@ModelAttribute("scri") SearchCriteria cri, HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model)
@@ -342,9 +342,9 @@ public class HomeController {
 		RBOARDDAO dao = sqlSession.getMapper(RBOARDDAO.class);
 		
 		
-		//ajax濡� 媛믩컺�쑝硫� Object濡� 諛쏆븘���졇�꽌, null�씤吏� �벑�벑 �솗�씤�븯湲곌� 遺덈━�븯�떎.
-		//�뵲�씪�꽌 寃��깋�떆 �꽭�뀡�뿉 ���옣�븳 媛믪쓣 �궗�슜�븳�떎.
-		
+		   //ajax로 값받으면 Object로 받아와져서, null인지 등등 확인하기가 불리하다.
+		//따라서 검색시 세션에 저장한 값을 사용한다.
+
 		String[] foodList1= (String[]) session.getAttribute("foodList");
 		String[] countryList1 = (String[]) session.getAttribute("countryList");
 		String[] timeList1 = (String[]) session.getAttribute("timeList");
@@ -352,11 +352,11 @@ public class HomeController {
 		String SearchWord1 = (String) session.getAttribute("SearchWord");
 		
 		
-		System.out.println(foodList1); //二쇱냼媛믪쑝濡� �쑙.
+		System.out.println(foodList1); //주소값으로 뜸.
 
 				
 				
-				  // 寃��깋 �꽑�깮媛믪쓣 bs (dto)�뿉 �꽔�쓬
+		   // 검색 선택값을 bs (dto)에 넣음
 				SearchCriteria bs = new SearchCriteria();
 				
 				bs.setFoodList(foodList1);
@@ -367,7 +367,7 @@ public class HomeController {
 
 				
 				
-				//諛쏆븘���꽌 ���옣�븳 bs媛믪쑝濡� 荑쇰━臾몃룎由�.
+		         //받아와서 저장한 bs값으로 쿼리문돌림.
 				List<RBOARDDTO> searchList = dao.searchorderbyreadcount(bs);
 				model.addAttribute("searchList", searchList);
 			
@@ -379,11 +379,11 @@ public class HomeController {
 				model.addAttribute("pageMaker", pageMaker);
 				
 				
-				//�럹�씠吏� �쑀吏�
+			     //페이징 유지
 				model.addAttribute("scri", cri);
 				
 				
-				//forward�떆�궓�떎.
+				  //forward시킨다.
 				session.setAttribute("foodList2",foodList1);  
 				session.setAttribute("countryList2",countryList1); 
 				session.setAttribute("timeList2",timeList1); 
@@ -399,11 +399,11 @@ public class HomeController {
 	@RequestMapping(value = "/listSearchsendmail3", method = RequestMethod.GET)
 	public String listSearchsendmail3(@ModelAttribute("scri") SearchCriteria cri, HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model)
 			throws Exception {
-		logger.info("�젙�젹 寃곌낵");
+		logger.info("정렬 결과");
 
 	
 		
-		// 二쇱냼李쎌뿉 �쑍 寃��깋 �꽑�깮媛믪쓣 bs (dto)�뿉 �꽔�쓬
+		   // 주소창에 뜬 검색 선택값을 bs (dto)에 넣음
 		SearchCriteria bs = new SearchCriteria();
 
 		
@@ -415,7 +415,7 @@ public class HomeController {
 		String SearchWord = (String) session.getAttribute("SearchWord2");
 		
 		
-		System.out.println(Arrays.toString(foodList));  //[鍮듬쪟]
+		System.out.println(Arrays.toString(foodList));  //[빵류]
 		System.out.println(Arrays.toString(countryList));  
 		System.out.println(Arrays.toString(timeList));  
 		
@@ -431,7 +431,7 @@ public class HomeController {
 		
 		
 
-		//諛쏆븘���꽌 ���옣�븳 bs媛믪쑝濡� 荑쇰━臾몃룎由�.
+		 //받아와서 저장한 bs값으로 쿼리문돌림.
 		List<RBOARDDTO> searchList = dao.searchorderbyreadcount(bs);
 		model.addAttribute("searchList", searchList);
 	
@@ -442,11 +442,12 @@ public class HomeController {
 		pageMaker.setTotalCount(dao.countSearch(bs));
 		model.addAttribute("pageMaker", pageMaker);
 		
-		//�럹�씠吏� �쑀吏�
+		//페이징 유지
 		model.addAttribute("scri", cri);
 
 		
-		return "/listSearchsendmail3";   //�뿬湲곗꽌 議고쉶�닔蹂� �젙�젹 �늻由�. -->ajax濡� �쟾�넚
+		return "/listSearchsendmail3";   //여기서 조회수별 정렬 누름. -->ajax로 전송
+
 	}
 	
 
@@ -459,13 +460,12 @@ public class HomeController {
 			throws Exception {
 		logger.info("ajax");
 		
-		//酉곗뿉�꽌 chks123[]濡� ajax �뜲�씠�꽣 �쟾�넚�븿.
+		  //뷰에서 chks123[]로 ajax 데이터 전송함.
 		
+		 //ajax를 받는 컨트롤러
+		System.out.println(chks);  //[52, 51] 로 게시글번호 넘겨받음. 
 		
-        //ajax瑜� 諛쏅뒗 而⑦듃濡ㅻ윭
-		System.out.println(chks); //[52, 51] 濡� 寃뚯떆湲�踰덊샇 �꽆寃⑤컺�쓬. 
-		
-		//�뿬湲곗꽌 rboarddto�뿉 ���옣�떆耳쒖빞�븿.
+		  //여기서 rboarddto에 저장시켜야함.
 		
 		model.addAttribute("chks", chks);
 
@@ -480,22 +480,25 @@ public class HomeController {
 		
 		logger.info("listSearchpopup");
 		
-		//�꽑�깮�븳 chk媛믪씠 二쇱냼李쎌뿉?濡� �뿰寃곕맖.
-		//二쇱냼媛믪쑝濡� �꽆寃⑥쭊遺�遺� 諛쏆븘以�.
+		  //선택한 chk값이 주소창에?로 연결됨.
+	      //주소값으로 넘겨진부분 받아줌.
+
 		String[] array = request.getParameterValues("chk");
 		
 		List boardnoarray = new ArrayList();
 
 		if( array !=  null){
 		     for( int i =0 ; i < array.length ; i ++){
-		       System.out.println( array[i]  ); // 52   51 �씠�젃寃� �쑙.
+		       System.out.println( array[i]  );  // 52   51 이렇게 뜸.
+
 		       //out.println("<br>=>"+ arrayStr[i]  );
 		       
 		       boardnoarray.add(array[i]);
 
 		     }
 		     
-		     System.out.println(boardnoarray);  //[52,51] ���옣�맖
+		     System.out.println(boardnoarray);   //[52,51] 저장됨
+
 		     
 		     model.addAttribute("boardnoarray", boardnoarray);
 		     
@@ -505,9 +508,9 @@ public class HomeController {
 		       
 		     
 
-		}   //52, 51 �씠�젃寃� �쑙.
+		}  //52, 51 이렇게 뜸.
 
-		//�뙘�뾽李� �쓣��.
+		  //팝업창 띄움.
 
 		return "/listSearchpopup";
 	}
@@ -517,7 +520,7 @@ public class HomeController {
 	@RequestMapping(value = "/finalsendemail")
 	public String finalsendemail( 
 			
-	   //硫붿씪蹂대궡湲�
+			 //메일보내기
 			@RequestParam("sendemail") String sendemail,
 			@RequestParam("sendtitle") String sendtitle,
 			@RequestParam("sendcontent") String sendcontent,
@@ -538,10 +541,13 @@ public class HomeController {
 	      MimeMessageHelper messageHelper 
 	                        = new MimeMessageHelper(message, true, "UTF-8");
 	 
-	      messageHelper.setFrom(setfrom);  // 蹂대궡�뒗�궗�엺 �깮�왂�븯嫄곕굹 �븯硫� �젙�긽�옉�룞�쓣 �븞�븿
-	      messageHelper.setTo(sendemail);     // 諛쏅뒗�궗�엺 �씠硫붿씪
-	      messageHelper.setSubject(sendtitle); // 硫붿씪�젣紐⑹� �깮�왂�씠 媛��뒫�븯�떎
-	      messageHelper.setText(sendcontent);  // 硫붿씪 �궡�슜
+	      messageHelper.setFrom(setfrom);  // 보내는사람 생략하거나 하면 정상작동을 안함
+
+	      messageHelper.setTo(sendemail);    // 받는사람 이메일
+
+	      messageHelper.setSubject(sendtitle);  // 메일제목은 생략이 가능하다
+
+	      messageHelper.setText(sendcontent);  // 메일 내용
 	     
 	      mailSender.send(message);
 	    } catch(Exception e){
@@ -549,11 +555,11 @@ public class HomeController {
 	    }
 	    
 
-	    //硫붿씪�씠 �떎 蹂대궡吏� �썑,  listSearchsendemail�뿉 �엳�뜕 �젙遺��뱾 �떎�떆 �쓣�슦�옄.
+	    //메일이 다 보내진 후,  listSearchsendemail에 있던 정부들 다시 띄우자.
 		logger.info("get list search");
 		RBOARDDAO dao = sqlSession.getMapper(RBOARDDAO.class);
 
-		// 寃��깋
+		// 검색
 		SearchCriteria bs = new SearchCriteria();
 
 		String[] foodList = request.getParameterValues("foodkind");
@@ -586,14 +592,15 @@ public class HomeController {
 	
 	@RequestMapping("/muldel")
 	public String muldel(HttpServletRequest request, HttpSession session, Model model) {
-		String[] seq = request.getParameterValues("chk"); // name�씠 chk�씤 �깭洹몃뒗 value媛믪씠 媛곴컖�쓽 boardno�씠怨�, 諛곗뿴seq�뿉�꽔�쓬
+		String[] seq = request.getParameterValues("chk"); 
+		// name이 chk인 태그는 value값이 각각의 boardno이고, 배열seq에넣음
 
 		if (seq == null || seq.length == 0) {
 			model.addAttribute("msg", "�븯�굹�씠�긽 �꽑�깮�븯�꽭�슂");
 		} else {
 			RBOARDDAO dao = sqlSession.getMapper(RBOARDDAO.class);
 
-			int res = dao.multiDelete(seq); // 吏��슦�뒗嫄� �꽦怨듯븯硫� 1�뵫利앷�
+			int res = dao.multiDelete(seq); // 지우는거 성공하면 1씩증가
 
 			if (res == seq.length) {
 				model.addAttribute("msg", "�궘�젣�꽦怨�");
@@ -607,29 +614,31 @@ public class HomeController {
 
 	
 	
-	//�꽭遺��궡�슜
+	   //세부내용
 	@RequestMapping("/rboard_detail")
 	public String rboard_detail(@ModelAttribute("scri") SearchCriteria cri, @RequestParam("boardno") int boardno, HttpSession session, HttpServletRequest request,
 			Model model) {
 
-		RBOARDDAO dao = sqlSession.getMapper(RBOARDDAO.class); // xml�뿉�꽌 selectOne荑쇰━媛��졇�� �떎�뻾�븯湲� �쐞�븿
+		RBOARDDAO dao = sqlSession.getMapper(RBOARDDAO.class); 
+		// xml에서 selectOne쿼리가져와 실행하기 위함
 
-		model.addAttribute("dto", dao.selectOne(boardno)); // 寃뚯떆�뙋 �븯�굹 媛��졇�삩 寃곌낵瑜� 紐⑤뜽�뿉 �룷�븿�떆
-		model.addAttribute("commentlist", dao.AllList(boardno)); // �뙎湲�紐⑸줉 遺덈윭�삤�뒗嫄� rboard_detail�뿉�꽌 �빐遊�.
+		model.addAttribute("dto", dao.selectOne(boardno)); // 게시판 하나 가져온 결과를 모델에 포함시
+
+		model.addAttribute("commentlist", dao.AllList(boardno)); // 댓글목록 불러오는걸 rboard_detail에서 해봄.
+
 		
-		
-		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login"); // �꽭�뀡�뿉 �떞�� 濡쒓렇�씤�젙蹂� 媛��졇�샂
+		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login");  // 세션에 담은 로그인정보 가져옴
 		model.addAttribute("dto2", dto2);
 
-		// 泥⑤��맂 �궗吏� 異쒕젰
+		 // 첨부된 사진 출력
 		List<uploadFileDTO> uploadFileList = dao.getFileList(boardno);
 		model.addAttribute("uploadFileList", uploadFileList);
 		
 		
-		//議고쉶�닔
+		//조회수
 		model.addAttribute("readcount",dao.boardHit(boardno));
 		
-		//�럹�씠吏� �쑀吏�		
+		  //페이징 유지  	
 		model.addAttribute("scri", cri); 
 
 		return "/rboard_detail";
@@ -638,23 +647,24 @@ public class HomeController {
 	
 	
 	
-    //湲��벐�뒗 �뤌
+    //글쓰는 폼
 	@RequestMapping("/rboard_writeform")
 	public String rboard_writeform(HttpSession session, Model model) {
 
-		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login"); // �꽭�뀡�뿉 �떞�� 濡쒓렇�씤�젙蹂� 媛��졇�샂
+		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login"); // 세션에 담은 로그인정보 가져옴
+
 		model.addAttribute("dto2", dto2);
 
 		return "/rboard_writeform";
 	}
 	
-    //湲��벐湲곕쾭�듉 �늻由�
+	  //글쓰기버튼 누름
 	@RequestMapping("/rboard_write")
 	public String write(HttpServletRequest request, Model model, MultipartFile file, HttpSession session,
 			MultipartHttpServletRequest mhsq) throws IOException, Exception {
 		RBOARDDAO dao = sqlSession.getMapper(RBOARDDAO.class);
 
-		// �뤌�깭洹멸컪�뱾 �쟾�떖
+	      // 폼태그값들 전달
 		String title = request.getParameter("title");
 		String memberid = request.getParameter("memberid");
 		String memberImg = request.getParameter("memberImg");
@@ -668,8 +678,8 @@ public class HomeController {
 		String minormat = request.getParameter("minormat");
 
 		
-		// 濡쒓렇�씤而⑦듃濡ㅻ윭�뿉�꽌 setAttribute濡� �꽭�뀡�뿉 ���옣�븳 login媛앹껜瑜� dto濡� 遺덈윭�� �솕硫댁뿉 肉뚮━�옄.
-		MEMBERDTO memberdto = (MEMBERDTO) session.getAttribute("login");
+		  // 로그인컨트롤러에서 setAttribute로 세션에 저장한 login객체를 dto로 불러와 화면에 뿌리자.
+        MEMBERDTO memberdto = (MEMBERDTO) session.getAttribute("login");
 	
 		
 		RBOARDDTO dto = new RBOARDDTO();
@@ -686,7 +696,7 @@ public class HomeController {
 		dto.setMajormat(majormat);
 		dto.setMinormat(minormat);
 
-		// kuzuro �뜽�꽕�씪泥⑤�
+	      // kuzuro 썸네일첨부
 
 		String imgUploadPath = uploadPath + File.separator + "imgUpload";
 		String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
@@ -708,22 +718,21 @@ public class HomeController {
 		    dto.setGdsThumbImg(fileName);
 		
 		}
-		// �뜽�꽕�씪源뚯� 媛숈씠 �옉�꽦
-		dao.insert(dto); // �썝�옒�뾾�뿀�쓬
+	      // 썸네일까지 같이 작성
+		dao.insert(dto); 
 
 		
 		
-		// �뙆�씪�벑濡� 2踰덉㎏諛⑸쾿. (硫��떚) 異쒖쿂: https://devofhwb.tistory.com/17 [�씠�뱺�쓽 �깮�솢肄붾뵫]
-
-		// ���옣寃쎈줈 �깮�꽦, �뙆�씪 �뿬湲곗뿉 ���옣�릺�뒗寃껉퉴吏� �솗�씤.
-		String realFolder = "/var/lib/tomcat8/webapps/resources/imgUpload";
+	     // 파일등록 2번째방법. (멀티) 출처: https://devofhwb.tistory.com/17 [이든의 생활코딩]
+		  // 저장경로 생성, 파일 여기에 저장되는것까지 확인.
+		String realFolder = "C:\\Users\\Jey\\Desktop\\resources\\imgUpload";
 
 		File dir = new File(realFolder);
 		if (!dir.isDirectory()) {
 			dir.mkdirs();
 		}
 
-		// �꽆�뼱�삩 �뙆�씪�쓣 由ъ뒪�듃濡� ���옣
+		  // 넘어온 파일을 리스트로 저장
 		List<MultipartFile> mf = mhsq.getFiles("uploadFile"); // type="file" �쓽 �뙆�씪誘명꽣紐낆쑝濡� �뙆�씪�쓣 媛��졇�삩�떎.
 		// MultipartServletRequest mhsq
 
@@ -731,19 +740,19 @@ public class HomeController {
 
 		} else {
 			for (int i = 0; i < mf.size(); i++) {
-				// �뙆�씪 以묐났紐� 泥섎━
+				 // 파일 중복명 처리
 				String genId = UUID.randomUUID().toString();
-				// 蹂몃옒 �뙆�씪紐�
+			     // 본래 파일명
 				String originalfileName = mf.get(i).getOriginalFilename();
 
 				String saveFileName = genId + "." + FilenameUtils.getExtension(originalfileName);
-				// ���옣�릺�뒗 �뙆�씪 �씠由�
+				 // 저장되는 파일 이름
 
-				String savePath = realFolder + saveFileName; // ���옣 �맆 �뙆�씪 寃쎈줈
+				String savePath = realFolder + saveFileName; /// 저장 될 파일 경로
 
-				long fileSize = mf.get(i).getSize(); // �뙆�씪 �궗�씠利�
+				long fileSize = mf.get(i).getSize(); // 파일 사이즈
 
-				mf.get(i).transferTo(new File(savePath)); // �뙆�씪 ���옣�븯怨� DB�뿉 �벑濡앷퉴吏� �솗�씤�맖.
+				mf.get(i).transferTo(new File(savePath));  // 파일 저장하고 DB에 등록까지 확인됨.
 
 				// int boardno = Integer.parseInt(request.getParameter("boardno"));
 				// System.out.println(boardno);
@@ -759,47 +768,49 @@ public class HomeController {
 			}
 		}
 
-		// 濡쒓렇�씤�꽭�뀡媛��졇�삤湲�(�쐞濡� �삷源�)
-		//酉곗뿉 濡쒓렇�씤�꽭�뀡 肉뚮┝
+	      // 로그인세션가져오기(위로 옮김)
+	      //뷰에 로그인세션 뿌림
+
 		model.addAttribute("memberdto", memberdto);
 		
 		
-		String id = memberdto.getId(); // 濡쒓렇�씤�맂�븘�씠�뵒
+		String id = memberdto.getId(); // 로그인된아이디
 		System.out.println(id);
 
 		MYPAGEDAO mypagedao = sqlSession.getMapper(MYPAGEDAO.class);
-		// 湲��옉�꽦�떆 �룷�씤�듃 +10
+		// 글작성시 포인트 +10
 		mypagedao.PlusPoint1(id);
 
 		return "redirect:listSearchsendmail";
 	}
 	
 	
-    //�닔�젙�뼇�떇
+	//수정양식
 	@RequestMapping("/updateform")
 	public String updateform(@ModelAttribute("scri") SearchCriteria cri,HttpServletRequest request, Model model) {
-		RBOARDDAO dao = sqlSession.getMapper(RBOARDDAO.class); // xml�뿉�꽌 selectOne荑쇰━媛��졇�� �떎�뻾�븯湲� �쐞�븿
+		RBOARDDAO dao = sqlSession.getMapper(RBOARDDAO.class); // xml에서 selectOne쿼리가져와 실행하기 위함
 
 		int boardno = Integer.parseInt(request.getParameter("boardno"));
-		System.out.println(boardno); // 媛��졇��吏�.
-		model.addAttribute("dto", dao.selectOne(boardno)); // 媛��졇�삩 寃곌낵瑜� 紐⑤뜽�뿉 �룷�븿�떆
-		
-		//�썝�옒 �옉�꽦�맂 湲��쓽 �젙蹂대�� updateform�럹�씠吏��뿉 �쓣�슫�떎.
-		
-		//�럹�씠吏� �쑀吏�
+		System.out.println(boardno); // 가져와짐.
+		model.addAttribute("dto", dao.selectOne(boardno)); // 가져온 결과를 모델에 포함시
+
+		 //원래 작성된 글의 정보를 updateform페이지에 띄운다.
+	      
+	      //페이징 유지
+
         model.addAttribute("scri", cri); 
 		
 
 		return "rboard_updateform";
 	}
 	
-    //�닔�젙�셿猷�
+    //수정완료
 	@RequestMapping("/rboard_update")
 	public String rboardupdate(@ModelAttribute("scri") SearchCriteria scri, @RequestParam("boardno") int boardno, HttpServletRequest request, Model model, MultipartFile file, HttpSession session,
 			MultipartHttpServletRequest mhsq, RedirectAttributes rttr) throws IOException, Exception {
 		RBOARDDAO dao = sqlSession.getMapper(RBOARDDAO.class);
 
-		// �뤌�깭洹멸컪�뱾 �쟾�떖
+		 // 폼태그값들 전달
 		String title = request.getParameter("title");
 		String memberid = request.getParameter("memberid");
 		String memberImg = request.getParameter("memberImg");
@@ -816,10 +827,10 @@ public class HomeController {
 		System.out.println(countrykind);
 		System.out.println(timekind);
 		
-		// 濡쒓렇�씤而⑦듃濡ㅻ윭�뿉�꽌 setAttribute濡� �꽭�뀡�뿉 ���옣�븳 login媛앹껜瑜� dto濡� 遺덈윭�� �솕硫댁뿉 肉뚮━�옄.
-		MEMBERDTO memberdto = (MEMBERDTO) session.getAttribute("login");
+		 // 로그인컨트롤러에서 setAttribute로 세션에 저장한 login객체를 dto로 불러와 화면에 뿌리자.
+        MEMBERDTO memberdto = (MEMBERDTO) session.getAttribute("login");
 		
-		System.out.println(title); //諛붾�먯젣紐�
+		System.out.println(title);  //바뀐제목
 	
 		
 		RBOARDDTO dto = new RBOARDDTO();
@@ -838,15 +849,16 @@ public class HomeController {
 		dto.setMajormat(majormat);
 		dto.setMinormat(minormat);
 
-		// kuzuro �뜽�꽕�씪泥⑤�
+		  // kuzuro 썸네일첨부
 
-		 // �깉濡쒖슫 �뙆�씪�씠 �벑濡앸릺�뿀�뒗吏� �솗�씤
+	       // 새로운 파일이 등록되었는지 확인
+
 		 if(file.getOriginalFilename() != null && file.getOriginalFilename() != "") {
-		  // 湲곗〈 �뙆�씪�쓣 �궘�젣
+			 // 기존 파일을 삭제
 		  new File(uploadPath + request.getParameter("gdsImg")).delete();
 		  new File(uploadPath + request.getParameter("gdsThumbImg")).delete();
 		  
-		  // �깉濡� 泥⑤��븳 �뙆�씪�쓣 �벑濡�
+		  // 새로 첨부한 파일을 등록
 		  String imgUploadPath = uploadPath + File.separator + "imgUpload";
 		  String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
 		  String fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath);
@@ -854,30 +866,34 @@ public class HomeController {
 		  dto.setGdsImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
 		  dto.setGdsThumbImg(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
 		  
-		 } else {  // �깉濡쒖슫 �뙆�씪�씠 �벑濡앸릺吏� �븡�븯�떎硫�
-		  // 湲곗〈 �씠誘몄�瑜� 洹몃�濡� �궗�슜
+		 } else {  // 새로운 파일이 등록되지 않았다면
+		        // 기존 이미지를 그대로 사용
+
 		  dto.setGdsImg(request.getParameter("gdsImg"));
 		  dto.setGdsThumbImg(request.getParameter("gdsThumbImg"));
 		  
 		 }
 		
 		
-		//�닔�젙
+		 //수정
+
 		dao.rboard_update(dto);
 
 		
 		
-		// �뙆�씪�벑濡� 2踰덉㎏諛⑸쾿. (硫��떚) 異쒖쿂: https://devofhwb.tistory.com/17 [�씠�뱺�쓽 �깮�솢肄붾뵫]
+		  // 파일등록 2번째방법. (멀티) 출처: https://devofhwb.tistory.com/17 [이든의 생활코딩]
 
-		// ���옣寃쎈줈 �깮�꽦, �뙆�씪 �뿬湲곗뿉 ���옣�릺�뒗寃껉퉴吏� �솗�씤.
-		String realFolder = "/var/lib/tomcat8/webapps/resources/imgUpload";
+	      // 저장경로 생성, 파일 여기에 저장되는것까지 확인.
+
+		String realFolder = "C:\\Users\\Jey\\Desktop\\resources\\imgUpload";
 
 		File dir = new File(realFolder);
 		if (!dir.isDirectory()) {
 			dir.mkdirs();
 		}
 
-		// �꽆�뼱�삩 �뙆�씪�쓣 由ъ뒪�듃濡� ���옣
+		  // 넘어온 파일을 리스트로 저장
+
 		List<MultipartFile> mf = mhsq.getFiles("uploadFile"); // type="file" �쓽 �뙆�씪誘명꽣紐낆쑝濡� �뙆�씪�쓣 媛��졇�삩�떎.
 		// MultipartServletRequest mhsq
 
@@ -885,19 +901,18 @@ public class HomeController {
 
 		} else {
 			for (int i = 0; i < mf.size(); i++) {
-				// �뙆�씪 以묐났紐� 泥섎━
+				 // 파일 중복명 처리
 				String genId = UUID.randomUUID().toString();
-				// 蹂몃옒 �뙆�씪紐�
+				 // 본래 파일명
 				String originalfileName = mf.get(i).getOriginalFilename();
-
 				String saveFileName = genId + "." + FilenameUtils.getExtension(originalfileName);
-				// ���옣�릺�뒗 �뙆�씪 �씠由�
+				 // 저장되는 파일 이름
 
-				String savePath = realFolder + saveFileName; // ���옣 �맆 �뙆�씪 寃쎈줈
+				String savePath = realFolder + saveFileName; // 저장 될 파일 경로
 
-				long fileSize = mf.get(i).getSize(); // �뙆�씪 �궗�씠利�
+				long fileSize = mf.get(i).getSize(); // 파일 사이즈
 
-				mf.get(i).transferTo(new File(savePath)); // �뙆�씪 ���옣�븯怨� DB�뿉 �벑濡앷퉴吏� �솗�씤�맖.
+				mf.get(i).transferTo(new File(savePath)); // 파일 저장하고 DB에 등록까지 확인됨.
 
 				// int boardno = Integer.parseInt(request.getParameter("boardno"));
 				// System.out.println(boardno);
@@ -913,14 +928,15 @@ public class HomeController {
 			}
 		}
 
-		// 濡쒓렇�씤�꽭�뀡媛��졇�삤湲�(�쐞濡� �삷源�)
-		//酉곗뿉 濡쒓렇�씤�꽭�뀡 肉뚮┝
+		// 로그인세션가져오기(위로 옮김)
+	    //뷰에 로그인세션 뿌림
+
 		model.addAttribute("memberdto", memberdto);
 		
 		model.addAttribute("scri", scri);
 		
 		
-		//�럹�씠吏� �쑀吏�
+		//페이징 유지
 		rttr.addAttribute("page", scri.getPage());
 		rttr.addAttribute("perPageNum", scri.getPerPageNum());
 		
@@ -931,11 +947,11 @@ public class HomeController {
 		rttr.addAttribute("searchType", scri.getSearchType());
 		rttr.addAttribute("searchWord", scri.getSearchWord());
 		
-		return "redirect:listSearchsendmail"; // redirect�뒗 �젙蹂댄룷�븿�빐�꽌 蹂대깂.
+		return "redirect:listSearchsendmail"; // redirect는 정보포함해서 보냄.
 	}
 
 	
-	//�궘�젣�븯湲�
+	//삭제하기
 	@RequestMapping("/rboarddelete")
 	public String delete(RedirectAttributes rttr, @ModelAttribute("scri") SearchCriteria scri,  @RequestParam("boardno") int boardno, HttpServletRequest request, Model model) {
 
@@ -945,7 +961,7 @@ public class HomeController {
 		dao.delete(boardno);
 		
 		
-		//�럹�씠吏� �쑀吏�
+		 //페이징 유지
 		rttr.addAttribute("page", scri.getPage());
 		rttr.addAttribute("perPageNum", scri.getPerPageNum());
 		
@@ -961,7 +977,7 @@ public class HomeController {
 		return "redirect:listSearchsendmail";
 	}
 
-	// 湲고� �럹�씠吏� �씠�룞
+	 // 기타 페이지 이동
 	@RequestMapping("/loginform")
 	public String login() {
 
@@ -979,22 +995,22 @@ public class HomeController {
 	@ResponseBody
 	public String BoardLike(@RequestParam("boardno") int boardno, HttpServletRequest request,HttpServletResponse response, HttpSession session) throws IOException {
 		
-		System.out.println("醫뗭븘�슂");
+		System.out.println("좋아요");
 		
 		MEMBERDTO dto = (MEMBERDTO) session.getAttribute("login");
-		String id = dto.getId(); // 濡쒓렇�씤�맂�븘�씠�뵒�씠�떎.
+		String id = dto.getId(); // 로그인된아이디이다.
 		
 		System.out.println(id);
 		
 		
-		//留듭뿉 ajax�뿉�꽌 諛쏆븘�삩 寃뚯떆湲�踰덊샇�� �븘�씠�뵒瑜� �꽔�뼱以�.
+		 //맵에 ajax에서 받아온 게시글번호와 아이디를 넣어줌.
 		Map<String, Object> m = new HashMap<String, Object>();
 		m.put("boardno", request.getParameter("boardno"));
 		m.put("id", request.getParameter("id"));
 		
 		RBOARDDAO dao = sqlSession.getMapper(RBOARDDAO.class);
 		
-		//�룞�씪 寃뚯떆湲�, �븘�씠�뵒濡� 醫뗭븘�슂�븳寃� �엳�뒗吏� �솗�씤�븳�떎.
+		 //동일 게시글, 아이디로 좋아요한게 있는지 확인한다.
 		int result =dao.likeCheck(m);
 		
 		
@@ -1009,8 +1025,9 @@ public class HomeController {
 		}
 		
 		
-		//醫뗭븘�슂 媛쒖닔 �꽭湲�
-		//�봽由고듃�씪�씠�꽣濡� 寃뚯떆湲�蹂� 醫뗭븘�슂�닔瑜� count濡� 酉곕줈 蹂대깂.
+		//좋아요 개수 세기
+	      //프린트라이터로 게시글별 좋아요수를 count로 뷰로 보냄.
+
 		PrintWriter out = response.getWriter();
 			
 				int count = dao.likeCount(boardno);
@@ -1030,8 +1047,9 @@ public class HomeController {
 		RBOARDDAO dao = sqlSession.getMapper(RBOARDDAO.class);
 		
 		
-		//醫뗭븘�슂 媛쒖닔 �꽭湲�
-		//�봽由고듃�씪�씠�꽣濡� 寃뚯떆湲�蹂� 醫뗭븘�슂�닔瑜� count濡� 酉곕줈 蹂대깂.
+	    //좋아요 개수 세기
+	      //프린트라이터로 게시글별 좋아요수를 count로 뷰로 보냄.
+
 		PrintWriter out = response.getWriter();
 			
 				int count = dao.likeCount(boardno);
@@ -1046,24 +1064,24 @@ public class HomeController {
 	@RequestMapping("/popup")
 	public String popup(@RequestParam("madebyid") String madebyid, HttpServletRequest request, HttpSession session, Model model) {
 
-		//酉곗뿉�꽌 �꽆湲� �븘�씠�뵒瑜� 諛쏆븘�샂.
+		 //뷰에서 넘긴 아이디를 받아옴.
 		System.out.println(madebyid);
 
 		RBOARDDTO dto = new RBOARDDTO();
 		
-		//�듅�젙 �븘�씠�뵒濡� �옉�꽦�맂 湲��쓣 �솕硫댁뿉 肉뚮젮以�.
+	    //특정 아이디로 작성된 글을 화면에 뿌려줌.
 		RBOARDDAO dao = sqlSession.getMapper(RBOARDDAO.class);
 		
 		model.addAttribute("madeby", dao.madeby(madebyid));
 		
 	
 		
-		/*�쁽�옱 濡쒓렇�씤 �꽭�뀡
-		// 濡쒓렇�씤而⑦듃濡ㅻ윭�뿉�꽌 setAttribute濡� �꽭�뀡�뿉 ���옣�븳 login媛앹껜瑜� dto濡� 遺덈윭�� �솕硫댁뿉 肉뚮━�옄.
-		MEMBERDTO dto1 = (MEMBERDTO) session.getAttribute("login");
+		 /*현재 로그인 세션
+	      // 로그인컨트롤러에서 setAttribute로 세션에 저장한 login객체를 dto로 불러와 화면에 뿌리자.
+        MEMBERDTO dto1 = (MEMBERDTO) session.getAttribute("login");
 		model.addAttribute("dto1", dto1);
 
-		String id = dto1.getId(); // 濡쒓렇�씤�맂�븘�씠�뵒�씠�떎.
+		String id = dto1.getId();  // 로그인된아이디이다.
 		System.out.println(id);*/
 	
 
@@ -1074,7 +1092,8 @@ public class HomeController {
 	//후기 게시판
 	
 	
-	// rboard �뱾�뼱媛붿쓣�븣
+	
+	
 	@RequestMapping(value = "/reviewboard_a", method = RequestMethod.GET)
 	public String listSearchsendmailreview(@ModelAttribute("scri") SearchCriteria bs, HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model)
 			throws Exception {
@@ -1082,21 +1101,20 @@ public class HomeController {
 		REVIEWBOARDDAO dao = sqlSession.getMapper(REVIEWBOARDDAO.class);
 
 
-		//寃��깋�븳 寃곌낵瑜� �럹�씠吏뺥븳�떎.
 
 		List<REVIEWBOARDDTO> searchList = dao.RlistSearch(bs);
 		model.addAttribute("searchList", searchList);  //�떎�쓬酉곗뿉 dto瑜� 肉뚮┝.
 		
 
-		//�럹�씠吏�
+		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(bs);
 		pageMaker.setTotalCount(dao.RcountSearch(bs));
 		
-		System.out.println(dao.RcountSearch(bs));   //媛��닔異쒕젰
+		System.out.println(dao.RcountSearch(bs));  
 		model.addAttribute("pageMaker", pageMaker);
 		
-		//�럹�씠吏뺤쑀吏�
+	
 		model.addAttribute("scri", bs); 
 		
 
@@ -1107,29 +1125,28 @@ public class HomeController {
 	
 	
 
-	//�꽭遺��궡�슜
+
 	@RequestMapping("/reviewboard_detail")
 	public String reviewboard_detail(@ModelAttribute("scri") SearchCriteria cri, @RequestParam("reviewboardno") int reviewboardno, HttpSession session, HttpServletRequest request,
 			Model model) {
 
-		REVIEWBOARDDAO dao = sqlSession.getMapper(REVIEWBOARDDAO.class); // xml�뿉�꽌 selectOne荑쇰━媛��졇�� �떎�뻾�븯湲� �쐞�븿
+		REVIEWBOARDDAO dao = sqlSession.getMapper(REVIEWBOARDDAO.class); 
 
-		model.addAttribute("dto", dao.RselectOne(reviewboardno)); // 寃뚯떆�뙋 �븯�굹 媛��졇�삩 寃곌낵瑜� 紐⑤뜽�뿉 �룷�븿�떆
-		model.addAttribute("commentlist", dao.RAllList(reviewboardno)); // �뙎湲�紐⑸줉 遺덈윭�삤�뒗嫄� rboard_detail�뿉�꽌 �빐遊�.
+		model.addAttribute("dto", dao.RselectOne(reviewboardno)); 
+		model.addAttribute("commentlist", dao.RAllList(reviewboardno)); 
 		
 		
-		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login"); // �꽭�뀡�뿉 �떞�� 濡쒓렇�씤�젙蹂� 媛��졇�샂
+		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login"); 
 		model.addAttribute("dto2", dto2);
 
-		// 泥⑤��맂 �궗吏� 異쒕젰
+	
 		List<uploadFileDTO> uploadFileList = dao.RgetFileList(reviewboardno);
 		model.addAttribute("uploadFileList", uploadFileList);
 		
-		
-		//議고쉶�닔
+	
 		model.addAttribute("readcount",dao.RboardHit(reviewboardno));
 		
-		//�럹�씠吏� �쑀吏�		
+	
 		model.addAttribute("scri", cri); 
 
 		return "/reviewboard_detail";
@@ -1138,11 +1155,11 @@ public class HomeController {
 	
 	
 	
-    //湲��벐�뒗 �뤌
+
 	@RequestMapping("/reviewboard_writeform")
 	public String reviewboard_writeform(@RequestParam("boardno") int boardno, HttpSession session, Model model) {
 
-		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login"); // �꽭�뀡�뿉 �떞�� 濡쒓렇�씤�젙蹂� 媛��졇�샂
+		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login"); 
 		model.addAttribute("dto2", dto2);
 		
 		System.out.println(boardno);
@@ -1151,7 +1168,7 @@ public class HomeController {
 		return "/reviewboard_writeform";
 	}
 	
-    //湲��벐湲곕쾭�듉 �늻由�
+
 	@RequestMapping("/reviewboard_write")
 	public String reviewboard_write(@RequestParam("boardno") int boardno, HttpServletRequest request, Model model, MultipartFile file, HttpSession session,
 			MultipartHttpServletRequest mhsq) throws IOException, Exception {
@@ -1159,7 +1176,7 @@ public class HomeController {
 
 
 		
-		// �뤌�깭洹멸컪�뱾 �쟾�떖
+		
 		String title = request.getParameter("title");
 		String memberid = request.getParameter("memberid");
 		String memberImg = request.getParameter("memberImg");
@@ -1173,7 +1190,7 @@ public class HomeController {
 		String minormat = request.getParameter("minormat");
 
 		
-		// 濡쒓렇�씤而⑦듃濡ㅻ윭�뿉�꽌 setAttribute濡� �꽭�뀡�뿉 ���옣�븳 login媛앹껜瑜� dto濡� 遺덈윭�� �솕硫댁뿉 肉뚮━�옄.
+		
 		MEMBERDTO memberdto = (MEMBERDTO) session.getAttribute("login");
 	
 		
@@ -1193,7 +1210,7 @@ public class HomeController {
 		dto.setMajormat(majormat);
 		dto.setMinormat(minormat);
 
-		// kuzuro �뜽�꽕�씪泥⑤�
+
 
 		String imgUploadPath = uploadPath + File.separator + "imgUpload";
 		String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
@@ -1215,43 +1232,40 @@ public class HomeController {
 		    dto.setGdsThumbImg(fileName);
 		
 		}
-		// �뜽�꽕�씪源뚯� 媛숈씠 �옉�꽦
-		dao.Rinsert(dto); // �썝�옒�뾾�뿀�쓬
+	
+		dao.Rinsert(dto); 
 
 		
 		
-		// �뙆�씪�벑濡� 2踰덉㎏諛⑸쾿. (硫��떚) 異쒖쿂: https://devofhwb.tistory.com/17 [�씠�뱺�쓽 �깮�솢肄붾뵫]
-
-		// ���옣寃쎈줈 �깮�꽦, �뙆�씪 �뿬湲곗뿉 ���옣�릺�뒗寃껉퉴吏� �솗�씤.
-		String realFolder = "/var/lib/tomcat8/webapps/resources/imgUpload";
+	
+		String realFolder = "C:\\Users\\Jey\\Desktop\\resources\\imgUpload";
 
 		File dir = new File(realFolder);
 		if (!dir.isDirectory()) {
 			dir.mkdirs();
 		}
 
-		// �꽆�뼱�삩 �뙆�씪�쓣 由ъ뒪�듃濡� ���옣
-		List<MultipartFile> mf = mhsq.getFiles("uploadFile"); // type="file" �쓽 �뙆�씪誘명꽣紐낆쑝濡� �뙆�씪�쓣 媛��졇�삩�떎.
+		
+		List<MultipartFile> mf = mhsq.getFiles("uploadFile"); 
 		// MultipartServletRequest mhsq
 
 		if (mf.size() == 1 && mf.get(0).getOriginalFilename().equals("")) {
 
 		} else {
 			for (int i = 0; i < mf.size(); i++) {
-				// �뙆�씪 以묐났紐� 泥섎━
+			
 				String genId = UUID.randomUUID().toString();
-				// 蹂몃옒 �뙆�씪紐�
+				
 				String originalfileName = mf.get(i).getOriginalFilename();
 
 				String saveFileName = genId + "." + FilenameUtils.getExtension(originalfileName);
-				// ���옣�릺�뒗 �뙆�씪 �씠由�
+			
 
-				String savePath = realFolder + saveFileName; // ���옣 �맆 �뙆�씪 寃쎈줈
+				String savePath = realFolder + saveFileName; 
 
-				long fileSize = mf.get(i).getSize(); // �뙆�씪 �궗�씠利�
+				long fileSize = mf.get(i).getSize(); 
 
-				mf.get(i).transferTo(new File(savePath)); // �뙆�씪 ���옣�븯怨� DB�뿉 �벑濡앷퉴吏� �솗�씤�맖.
-
+				mf.get(i).transferTo(new File(savePath)); 
 				// int boardno = Integer.parseInt(request.getParameter("boardno"));
 				// System.out.println(boardno);
 
@@ -1266,47 +1280,44 @@ public class HomeController {
 			}
 		}
 
-		// 濡쒓렇�씤�꽭�뀡媛��졇�삤湲�(�쐞濡� �삷源�)
-		//酉곗뿉 濡쒓렇�씤�꽭�뀡 肉뚮┝
+		
 		model.addAttribute("memberdto", memberdto);
 		
 		
-		String id = memberdto.getId(); // 濡쒓렇�씤�맂�븘�씠�뵒
+		String id = memberdto.getId(); 
 		System.out.println(id);
 
 		MYPAGEDAO mypagedao = sqlSession.getMapper(MYPAGEDAO.class);
-		// 湲��옉�꽦�떆 �룷�씤�듃 +10
+	
 		mypagedao.PlusPoint1(id);
 
 		return "redirect:reviewboard_a";
 	}
 	
 	
-    //�닔�젙�뼇�떇
+ 
 	@RequestMapping("/reviewboard_updateform")
 	public String reviewboard_updateform(@ModelAttribute("scri") SearchCriteria cri,HttpServletRequest request, Model model) {
-		REVIEWBOARDDAO dao = sqlSession.getMapper(REVIEWBOARDDAO.class); // xml�뿉�꽌 selectOne荑쇰━媛��졇�� �떎�뻾�븯湲� �쐞�븿
+		REVIEWBOARDDAO dao = sqlSession.getMapper(REVIEWBOARDDAO.class); 
 
 		int REVIEWBOARDNO = Integer.parseInt(request.getParameter("reviewboardno"));
-		System.out.println(REVIEWBOARDNO); // 媛��졇��吏�.
-		model.addAttribute("dto", dao.RselectOne(REVIEWBOARDNO)); // 媛��졇�삩 寃곌낵瑜� 紐⑤뜽�뿉 �룷�븿�떆
+		System.out.println(REVIEWBOARDNO); 
+		model.addAttribute("dto", dao.RselectOne(REVIEWBOARDNO));
 		
-		//�썝�옒 �옉�꽦�맂 湲��쓽 �젙蹂대�� updateform�럹�씠吏��뿉 �쓣�슫�떎.
 		
-		//�럹�씠吏� �쑀吏�
         model.addAttribute("scri", cri); 
 		
 
 		return "reviewboard_updateform";
 	}
 	
-    //�닔�젙�셿猷�
+   
 	@RequestMapping("/reviewboard_update")
 	public String reviewboard_update(@ModelAttribute("scri") SearchCriteria scri, @RequestParam("reviewboardno") int REVIEWBOARDNO, HttpServletRequest request, Model model, MultipartFile file, HttpSession session,
 			MultipartHttpServletRequest mhsq, RedirectAttributes rttr) throws IOException, Exception {
 		REVIEWBOARDDAO dao = sqlSession.getMapper(REVIEWBOARDDAO.class);
 
-		// �뤌�깭洹멸컪�뱾 �쟾�떖
+		
 		String title = request.getParameter("title");
 		String memberid = request.getParameter("memberid");
 		String memberImg = request.getParameter("memberImg");
@@ -1320,10 +1331,9 @@ public class HomeController {
 		String minormat = request.getParameter("minormat");
 
 		
-		// 濡쒓렇�씤而⑦듃濡ㅻ윭�뿉�꽌 setAttribute濡� �꽭�뀡�뿉 ���옣�븳 login媛앹껜瑜� dto濡� 遺덈윭�� �솕硫댁뿉 肉뚮━�옄.
 		MEMBERDTO memberdto = (MEMBERDTO) session.getAttribute("login");
 		
-		System.out.println(title); //諛붾�먯젣紐�
+		System.out.println(title); 
 	
 		
 		REVIEWBOARDDTO dto = new REVIEWBOARDDTO();
@@ -1342,15 +1352,13 @@ public class HomeController {
 		dto.setMajormat(majormat);
 		dto.setMinormat(minormat);
 
-		// kuzuro �뜽�꽕�씪泥⑤�
-
-		 // �깉濡쒖슫 �뙆�씪�씠 �벑濡앸릺�뿀�뒗吏� �솗�씤
+		
 		 if(file.getOriginalFilename() != null && file.getOriginalFilename() != "") {
-		  // 湲곗〈 �뙆�씪�쓣 �궘�젣
+		
 		  new File(uploadPath + request.getParameter("gdsImg")).delete();
 		  new File(uploadPath + request.getParameter("gdsThumbImg")).delete();
 		  
-		  // �깉濡� 泥⑤��븳 �뙆�씪�쓣 �벑濡�
+		  
 		  String imgUploadPath = uploadPath + File.separator + "imgUpload";
 		  String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
 		  String fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath);
@@ -1358,51 +1366,46 @@ public class HomeController {
 		  dto.setGdsImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
 		  dto.setGdsThumbImg(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
 		  
-		 } else {  // �깉濡쒖슫 �뙆�씪�씠 �벑濡앸릺吏� �븡�븯�떎硫�
-		  // 湲곗〈 �씠誘몄�瑜� 洹몃�濡� �궗�슜
+		 } else { 
 		  dto.setGdsImg(request.getParameter("gdsImg"));
 		  dto.setGdsThumbImg(request.getParameter("gdsThumbImg"));
 		  
 		 }
 		
 		
-		//�닔�젙
+	
 		dao.Rrboard_update(dto);
 
 		
 		
-		// �뙆�씪�벑濡� 2踰덉㎏諛⑸쾿. (硫��떚) 異쒖쿂: https://devofhwb.tistory.com/17 [�씠�뱺�쓽 �깮�솢肄붾뵫]
-
-		// ���옣寃쎈줈 �깮�꽦, �뙆�씪 �뿬湲곗뿉 ���옣�릺�뒗寃껉퉴吏� �솗�씤.
-		String realFolder = "/var/lib/tomcat8/webapps/resources/imgUpload";
+		
+		String realFolder = "C:\\Users\\Jey\\Desktop\\resources\\imgUpload";
 
 		File dir = new File(realFolder);
 		if (!dir.isDirectory()) {
 			dir.mkdirs();
 		}
 
-		// �꽆�뼱�삩 �뙆�씪�쓣 由ъ뒪�듃濡� ���옣
-		List<MultipartFile> mf = mhsq.getFiles("uploadFile"); // type="file" �쓽 �뙆�씪誘명꽣紐낆쑝濡� �뙆�씪�쓣 媛��졇�삩�떎.
-		// MultipartServletRequest mhsq
+		
+		List<MultipartFile> mf = mhsq.getFiles("uploadFile"); 
 
 		if (mf.size() == 1 && mf.get(0).getOriginalFilename().equals("")) {
 
 		} else {
 			for (int i = 0; i < mf.size(); i++) {
-				// �뙆�씪 以묐났紐� 泥섎━
+				
 				String genId = UUID.randomUUID().toString();
-				// 蹂몃옒 �뙆�씪紐�
+				
 				String originalfileName = mf.get(i).getOriginalFilename();
 
 				String saveFileName = genId + "." + FilenameUtils.getExtension(originalfileName);
-				// ���옣�릺�뒗 �뙆�씪 �씠由�
+			
 
-				String savePath = realFolder + saveFileName; // ���옣 �맆 �뙆�씪 寃쎈줈
+				String savePath = realFolder + saveFileName; 
 
-				long fileSize = mf.get(i).getSize(); // �뙆�씪 �궗�씠利�
+				long fileSize = mf.get(i).getSize(); 
 
-				mf.get(i).transferTo(new File(savePath)); // �뙆�씪 ���옣�븯怨� DB�뿉 �벑濡앷퉴吏� �솗�씤�맖.
-
+				mf.get(i).transferTo(new File(savePath)); 
 				// int boardno = Integer.parseInt(request.getParameter("boardno"));
 				// System.out.println(boardno);
 
@@ -1417,14 +1420,13 @@ public class HomeController {
 			}
 		}
 
-		// 濡쒓렇�씤�꽭�뀡媛��졇�삤湲�(�쐞濡� �삷源�)
-		//酉곗뿉 濡쒓렇�씤�꽭�뀡 肉뚮┝
+		
 		model.addAttribute("memberdto", memberdto);
 		
 		model.addAttribute("scri", scri);
 		
 		
-		//�럹�씠吏� �쑀吏�
+		
 		rttr.addAttribute("page", scri.getPage());
 		rttr.addAttribute("perPageNum", scri.getPerPageNum());
 		
@@ -1439,7 +1441,7 @@ public class HomeController {
 	}
 
 	
-	//�궘�젣�븯湲�
+	
 	@RequestMapping("/reviewboard_delete")
 	public String reviewboard_delete(RedirectAttributes rttr, @ModelAttribute("scri") SearchCriteria scri,  @RequestParam("reviewboardno") int REVIEWBOARDNO, HttpServletRequest request, Model model) {
 
@@ -1449,7 +1451,7 @@ public class HomeController {
 		dao.Rdelete(REVIEWBOARDNO);
 		
 		
-		//�럹�씠吏� �쑀吏�
+	
 		rttr.addAttribute("page", scri.getPage());
 		rttr.addAttribute("perPageNum", scri.getPerPageNum());
 		
