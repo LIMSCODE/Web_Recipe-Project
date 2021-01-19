@@ -9,15 +9,15 @@ import com.javalec.spring_mybatis.dto.RBOARDDTO;
 @Repository
 public interface MYPAGEDAO {
 
-	//내가쓴글
+	//내가작성한글
 	public List<RBOARDDTO> MyRBoard(String id);
 	
-	//내가 좋아요한 글
+	//내가좋아요한 글
 	public List<RBOARDDTO> MyLike(String id);
 	
-	//회원가입시 포인트 +100
+	//글작성시 포인트적립
 	public int PlusPoint(String id);
-	//글작성시 포인트 +10
+
 	public int PlusPoint1(String id);
 	
 	//회원정보 수정
