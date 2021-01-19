@@ -24,7 +24,7 @@ import com.javalec.spring_mybatis.dto.MEMBERNAVERDTO;
 
 public interface MEMBERDAO {
 	
-//�쉶�썝媛��엯
+//회원가입
 //public int insertuser(@Param("id")String id, @Param("pw")String pw, @Param("name")String name,
 		//@Param("email")String email, @Param("phone")String phone, 
 		//@Param("memberImg")String memberImg ,@Param("memberThumbImg")String memberThumbImg);
@@ -39,12 +39,12 @@ public void insertuser(MEMBERDTO dto);
 
 
 
-//濡쒓렇�씤
+//로그인 체크
 public MEMBERDTO loginCheck(@Param("id")String id);
 
-//�꽕�씠踰꾨줈洹몄씤
+//네이버
 
-//濡쒓렇�씤而⑦듃濡ㅻ윭�뿉�꽌 濡쒓렇�씤�맟�뒗吏� �솗�씤�븯�뿬 硫붿씤�럹�씠吏�濡� 肉뚮┝
+
 public MEMBERDTO loginChecknaver(@Param("id")String id, @Param("email")String email);
 public int insertnaveruser(@Param("id")String id, @Param("name")String name, @Param("email")String email, @Param("memberImg")String memberImg);
 
