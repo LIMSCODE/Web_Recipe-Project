@@ -23,81 +23,72 @@ public interface RBOARDDAO {
 
 
 public List<RBOARDCOMMENTDTO> AllList(int boardno);
-//紐⑸줉+�럹�씠吏�
+
 public List<RBOARDDTO> listPage(Criteria cri);
 
 
-//select�뒗 xml�뿉�꽌 resulttype�쓣 getter,setter留뚮뱺 DTO濡쒖꽕�젙�븯怨� (諛섑솚�삎)
-//insert update delete�뒗 parameterType �쑝濡� DTO瑜� �꽕�젙�븳�떎. 
 
 
-//�쟾泥댁꽑�깮
+//글전부가져오기
 public List<RBOARDDTO> selectAll();
-//湲��옉�꽦
+//글작성
 public void insert(RBOARDDTO dto);
-//�긽�꽭蹂닿린
+//글 자세히보기
 public RBOARDDTO selectOne(int boardno); 
-//�궘�젣
+//글삭제
 public int delete(int boardno);
-//�쟾泥댁궘�젣
+//다중삭제
 public int multiDelete(String[] seq);
-//�닔�젙
+//글수정
 public void rboard_update(RBOARDDTO dto);
 
 
-//議고쉶�닔 �뾽�뜲�씠�듃
+//조회수수정
 public int updateReadcount(int readcount, int boardno);
-//�뙎湲��닔 �뾽�뜲�씠�듃
+//댓글수 수정
 public int updateComment(int boardno);
 
-//�뙆�씪�뾽濡쒕뱶
+//내용에 잇는 사진 파일업로드
 public void uploadFile(HashMap<String, Object> hm);
 
-//board_detail�뿉�꽌 �뾽濡쒕뱶�맂 �뙆�씪 蹂닿린
+//내용에 있는 사진파일 가져오기
 public List<uploadFileDTO> getFileList(int boardno);
 
 
 
 
 
-//rboard吏꾩엯
+//rboard 글 가져오기
 public List<RBOARDDTO> listRboard(Criteria cri);
 
-//寃뚯떆臾� 珥� 媛��닔
+//글 개수
 public int listCount();
 
-//議고쉶�닔 �넂���닚 �젙�젹
+//조회수정렬
 public List<RBOARDDTO> orderbyreadcount(Criteria cri);
-//�뙎湲��닔 留롮��닚 �젙�젹
-public List<RBOARDDTO> orderbycommentcount(Criteria bs);
 
 
 
-
-//寃��깋 議곌굔�뿉 留욊쾶
+//글 가져오기
 public List<RBOARDDTO> listSearch(SearchCriteria bs);
 
 
-//寃��깋�븳 寃뚯떆臾� 珥� 媛��닔
+//검색한 글 개수
 public int countSearch(SearchCriteria bs);
 
-//議고쉶�닔 �넂���닚 �젙�젹
+//검색결과 조회수별 정렬
 public List<RBOARDDTO> searchorderbyreadcount(SearchCriteria cri);
-//�뙎湲��닔 留롮��닚 �젙�젹
-public List<RBOARDDTO> searchorderbycommentcount(SearchCriteria bs);
 
 
 
 
-
-
-//議고쉶�닔
+//조회수
 public int boardHit(int boardno);
 
-//醫뗭븘�슂
+//좋아요여부 확인
 public int likeCheck(Map<String, Object> m);
 
-//醫뗭븘�슂 媛쒖닔
+//좋아요개수
 public int likeCount(int boardno);
 
 public void insertBoardLike(RBOARDLIKEDTO dto);
@@ -109,7 +100,7 @@ public void deleteBoardLike(RBOARDLIKEDTO dto);
 
 
 
-//�듅�젙 �븘�씠�뵒濡� �옉�꽦�맂 湲�
+//특정아이디가 작성한 글
 public List<RBOARDDTO> madeby(String id);
 
 
