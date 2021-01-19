@@ -94,13 +94,14 @@ public class LoginController {
 	
 	
 
-	// �쉶�썝媛��엯
+	  // 회원가입
 	@RequestMapping("/registuser")
 	public String registuser(HttpServletRequest request, Model model,  MultipartFile file ) throws IOException, Exception {
 		MEMBERDAO dao = sqlSession.getMapper(MEMBERDAO.class);
 		
 		
-		//鍮꾨�踰덊샇 �븫�샇�솕 --> db�뿉 �븫�샇�솕�릺�뼱 ���옣�맂�떎.
+		//비밀번호 암호화 --> db에 암호화되어 저장된다.
+
 		MEMBERDTO dto = new MEMBERDTO();
 		String inputPass = request.getParameter("pw");
 		String pass = passEncoder.encode(inputPass);
@@ -111,7 +112,7 @@ public class LoginController {
 		String ymdPath = UploadFileUtils.calcPath(imgUploadPath);
 		String fileName = null;
 		
-		//蹂듬텤�뻽�뜑�땲 �뿉�윭�굹�꽌 �넀�닔爾먯빞�븿
+	
 		
 		if(file!=null) {
 			fileName= UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath);
@@ -141,7 +142,7 @@ public class LoginController {
 	
 	
 
-	// 濡쒓렇�씤 泥섎━�븯�뒗 遺�遺�
+	   // 로그인 처리하는 부분
 	@RequestMapping("/originallogin")
 	public String loginCheck(RedirectAttributes rttr, HttpServletRequest request, HttpSession session) {
 		MEMBERDAO dao = sqlSession.getMapper(MEMBERDAO.class);
@@ -150,40 +151,45 @@ public class LoginController {
 		
 		MEMBERDTO dto = new MEMBERDTO();
 		
-		// dao.loginCheck(id,pw)�뒗 selectAll�븳 寃곌낵. 
+		 // dao.loginCheck(id,pw)는 selectAll한 결과. 
 		MEMBERDTO login = dao.loginCheck(request.getParameter("id"));
 
-		//�븫�샇�솕�븳 鍮꾨�踰덊샇媛� �엯�젰�븳媛믨낵 留욌뒗吏� 鍮꾧탳
+		 //암호화한 비밀번호가 입력한값과 맞는지 비교
 		boolean passMatch= passEncoder.matches(request.getParameter("pw"), login.getPw());
 
 		if (session.getAttribute("login") != null) {
-			// 湲곗〈�뿉 login�씠�� �꽭�뀡 媛믪씠 議댁옱�븳�떎硫�
-			session.removeAttribute("login"); // 湲곗〈媛믪쓣 �젣嫄고빐 以��떎.
+			  // 기존에 login이란 세션 값이 존재한다면
+			session.removeAttribute("login");// 기존값을 제거해 준다.
 		}
 
 		
-		if (login != null && passMatch) { // 濡쒓렇�씤 �꽦怨듭떆
-			session.setAttribute("login", login); // �꽭�뀡�뿉 login�씤�씠�� �씠由꾩쑝濡� login媛앹껜瑜� ���옣�빐 �냸.
-			session.setMaxInactiveInterval(1000 * 1000);
-			returnURL = "redirect:index"; // 濡쒓렇�씤 �꽦怨듭떆 硫붿씤�럹�씠吏�濡� �씠�룞�븯怨�
-		} else { // 濡쒓렇�씤�뿉 �떎�뙣�븳 寃쎌슦
+		if (login != null && passMatch) { // 로그인 성공시
+			session.setAttribute("login", login); // 세션에 login인이란 이름으로 login객체를 저장해 놈.
 
-			//硫붿꽭吏� 異쒕젰�떆�궎湲�. ?????
+			session.setMaxInactiveInterval(1000 * 1000);
+			returnURL = "redirect:index"; // 로그인 성공시 메인페이지로 이동하고
+
+		} else { // 로그인에 실패한 경우
+
+
+			 //메세지 출력시키기. ?????
+
 			rttr.addFlashAttribute("msg", false);
-			returnURL = "redirect:loginform"; // 濡쒓렇�씤 �뤌�쑝濡� �떎�떆 媛��룄濡� �븿
+			returnURL = "redirect:loginform"; // 로그인 폼으로 다시 가도록 함
+
 		}
 
-		return returnURL; // �쐞�뿉�꽌 �꽕�젙�븳 returnURL �쓣 諛섑솚�빐�꽌 �씠�룞�떆�궡
+		return returnURL; // 위에서 설정한 returnURL 을 반환해서 이동시킴
 	}
 
-	// �꽭�뀡�씠 �떎瑜멸납�뿉�꽌�룄 �쑀吏��릺�룄濡�.
+	 // 세션이 다른곳에서도 유지되도록.
 	// HttpSession session = request.getSession(true); �븞�뜥�룄�맖??
 
-	// 濡쒓렇�븘�썐 �븯�뒗 遺�遺�
+	 // 로그아웃 하는 부분
 	@RequestMapping("/originallogout")
 	public String originallogout(HttpSession session) {
-		session.invalidate(); // �꽭�뀡 珥덇린�솕
-		return "redirect:loginform"; // 濡쒓렇�븘�썐 �썑 濡쒓렇�씤�솕硫댁쑝濡� �씠�룞
+		session.invalidate();  // 세션 초기화
+		return "redirect:loginform"; // 로그아웃 후 로그인화면으로 이동
 	}
 
 	
@@ -199,21 +205,22 @@ public class LoginController {
 		this.naverLoginBO = naverLoginBO;
 	}
 
-	// 濡쒓렇�씤 泥� �솕硫� �슂泥� 硫붿냼�뱶
+	// 로그인 첫 화면 요청 메소드
 	@RequestMapping(value = "/loginform", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login(Model model, HttpSession session) {
 
-		/* �꽕�씠踰꾩븘�씠�뵒濡� �씤利� URL�쓣 �깮�꽦�븯湲� �쐞�븯�뿬 naverLoginBO�겢�옒�뒪�쓽 getAuthorizationUrl硫붿냼�뱶 �샇異� */
-		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+		 /* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
+         String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
 		// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
 		// redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
-		System.out.println("�꽕�씠踰�:" + naverAuthUrl);
-		// �꽕�씠踰�
+		System.out.println("네이버:" + naverAuthUrl);
+		   // 네이버
+
 		model.addAttribute("url", naverAuthUrl);
 		return "loginform";
 	}
 
-	// �꽕�씠踰� 濡쒓렇�씤 �꽦怨듭떆 callback�샇異� 硫붿냼�뱶
+	  // 네이버 로그인 성공시 callback호출 메소드
 	@RequestMapping(value = "/callback", method = { RequestMethod.GET, RequestMethod.POST })
 	public String callback(HttpServletRequest request, Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
 			throws IOException, ParseException {
@@ -222,23 +229,23 @@ public class LoginController {
 		OAuth2AccessToken oauthToken;
 		oauthToken = naverLoginBO.getAccessToken(session, code, state);
 
-		// 1. 濡쒓렇�씤 �궗�슜�옄 �젙蹂대�� �씫�뼱�삩�떎.
+		// 1. 로그인 사용자 정보를 읽어온다.
 		apiResult = naverLoginBO.getUserProfile(oauthToken); // String�삎�떇�쓽 json�뜲�씠�꽣
 		/**
 		 * apiResult json 援ъ“ {"resultcode":"00", "message":"success",
 		 * "response":{"id":"33666449","nickname":"shinn****","age":"20-29","gender":"M","email":"sh@naver.com","name":"\uc2e0\ubc94\ud638"}}
 		 **/
-		// 2. String�삎�떇�씤 apiResult瑜� json�삎�깭濡� 諛붽퓞
+	      // 2. String형식인 apiResult를 json형태로 바꿈
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(apiResult);
 		JSONObject jsonObj = (JSONObject) obj;
-		// 3. �뜲�씠�꽣 �뙆�떛
-		// Top�젅踰� �떒怨� _response �뙆�떛
+		 // 3. 데이터 파싱
+		  // Top레벨 단계 _response 파싱
 		JSONObject response_obj = (JSONObject) jsonObj.get("response");
 		
 		
 
-		// response�쓽 nickname媛� �뙆�떛
+	     // response의 nickname값 파싱
 		String name = (String) response_obj.get("id");
 		String email = (String) response_obj.get("email");
 		String id = (String) response_obj.get("nickname");
@@ -256,37 +263,40 @@ public class LoginController {
 		MEMBERDAO dao = sqlSession.getMapper(MEMBERDAO.class);
 		
 
-		//1. MEMBERNAVER �뀒�씠釉붿뿉 �젙蹂� ���옣�떆�궓�떎. (以묐났諛⑹� 荑쇰━臾�)
+		  //1. MEMBERNAVER 테이블에 정보 저장시킨다. (중복방지 쿼리문)
+
 		dao.insertnaveruser(id,  name, email, memberImg);
 				
 		
 		String returnURL = "";
 
 		if (session.getAttribute("login") != null) {
-			// 湲곗〈�뿉 login�씠�� �꽭�뀡 媛믪씠 議댁옱�븳�떎硫�
-			session.removeAttribute("login"); // 湲곗〈媛믪쓣 �젣嫄고빐 以��떎.
+			 // 기존에 login이란 세션 값이 존재한다면
+			session.removeAttribute("login"); // 기존값을 제거해 준다.
+
 		}
 
-		//2. dao.loginCheck(id,pw)�뒗 selectAll�븳 寃곌낵瑜� session�뿉 ���옣�떆耳� �떎瑜명럹�씠吏�濡� 肉뚮┛�떎.
-		memberdto = dao.loginChecknaver(id, email);
+		 //2. dao.loginCheck(id,pw)는 selectAll한 결과를 session에 저장시켜 다른페이지로 뿌린다.
+        memberdto = dao.loginChecknaver(id, email);
 
 
 
-		if (memberdto != null) { // 濡쒓렇�씤 �꽦怨듭떆
-			session.setAttribute("login", memberdto); // �꽭�뀡�뿉 login�씤�씠�� �씠由꾩쑝濡� login媛앹껜瑜� ���옣�빐 �냸.
+		if (memberdto != null) {// 로그인 성공시
+			session.setAttribute("login", memberdto); // 세션에 login인이란 이름으로 login객체를 저장해 놈.
+
 			session.setMaxInactiveInterval(1000 * 1000);
 			
 			
-			returnURL = "redirect:index"; // 濡쒓렇�씤 �꽦怨듭떆 硫붿씤�럹�씠吏�濡� �씠�룞�븯怨�
+			returnURL = "redirect:index"; // 로그인 성공시 메인페이지로 이동하고
+
+		} else { // 로그인에 실패한 경우
+
 			
-		} else { // 濡쒓렇�씤�뿉 �떎�뙣�븳 寃쎌슦
-			
-			
-			//硫붿꽭吏� 異쒕젰�떆�궎湲�. ?????
-			returnURL = "redirect:loginform"; // 濡쒓렇�씤 �뤌�쑝濡� �떎�떆 媛��룄濡� �븿
+			returnURL = "redirect:loginform"; // 로그인 폼으로 다시 가도록 함
+
 		}
 
-		return returnURL; // �쐞�뿉�꽌 �꽕�젙�븳 returnURL �쓣 諛섑솚�빐�꽌 �씠�룞�떆�궡
+		return returnURL; // 위에서 설정한 returnURL 을 반환해서 이동시킴
 	}
 
 
@@ -296,15 +306,15 @@ public class LoginController {
 		
 		
 
-	// 濡쒓렇�븘�썐
-	// - �꽕�씠踰� API�뒗 濡쒓렇�씤�� 吏��썝�븯�뒗�뜲, 濡쒓렇�븘�썐�� 吏��썝�쓣 �븯吏��븡�뒗�떎.
-	// - �씠寃� �븣臾몄뿉 �굹�뒗 �굹留뚯쓽 �꽭�뀡�쓣 留뚮뱾�뼱�꽌 濡쒓렇�븘�썐 �슂泥��씠 �뱾�뼱�삱 �븣 洹몃깷 �궡 �꽭�뀡�쓣 invalidate �떆�궎怨� index.jsp濡�
-	// 由щ떎�씠�젆�듃 �떆耳곕떎.
-	// - �셿踰쏀븳 濡쒓렇�븘�썐�쓣 �븯�젮硫� �꽕�씠踰� �솃�럹�씠吏�濡� �젒�냽�빐�꽌 濡쒓렇�븘�썐 踰꾪듉�쓣 �닃�윭�빞�븳�떎!
+	   // 로그아웃
+	   // - 네이버 API는 로그인은 지원하는데, 로그아웃은 지원을 하지않는다.
+	   // - 이것 때문에 나는 나만의 세션을 만들어서 로그아웃 요청이 들어올 때 그냥 내 세션을 invalidate 시키고 index.jsp로
+	   // 리다이렉트 시켰다.
+	   // - 완벽한 로그아웃을 하려면 네이버 홈페이지로 접속해서 로그아웃 버튼을 눌러야한다!
 
 	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
 	public String logout(HttpSession session) throws IOException {
-		System.out.println("�뿬湲곕뒗 logout");
+		System.out.println("logout");
 		session.invalidate();
 		
 		
