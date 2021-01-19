@@ -14,7 +14,7 @@ import com.javalec.spring_mybatis.dto.SearchCriteria2;
 
 public interface MAINDAO {
 	
-	//硫붿씤�솕硫�
+	//음식종류별 최신글
 	public List<RBOARDDTO> mainlatest0( );
 	public List<RBOARDDTO> mainlatest1( );
 	public List<RBOARDDTO> mainlatest2( );
@@ -22,11 +22,11 @@ public interface MAINDAO {
 	public List<RBOARDDTO> mainlatest4( );
 	public List<RBOARDDTO> mainlatest5( );
 	
-	//�옲�궧
+	//멤버랭킹
 	public List<MEMBERDTO> ranking();
-	
-	
-	
+	public List<MEMBERDTO> ranking1();
+	public List<MEMBERDTO> ranking2();
+
 	public List<RBOARDDTO> listSearch2(SearchCriteria2 bs);
 
 	public List<RBOARDDTO> orderbyreadcount(SearchCriteria2 bs);
