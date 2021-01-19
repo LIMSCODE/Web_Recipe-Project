@@ -82,7 +82,7 @@
 	</beans:bean>
 	
 		<!-- 외부파일 가져오기, mapping일때 location으로 대체한다. -->
-	 <resources mapping="http://3.34.21.104:8080/rprojectendpoint3/*" location="/var/lib/tomcat8/webapps/resources" />
+	 <resources mapping="http:/aws주소           /*" location="/var/lib/tomcat8/webapps/resources" />
 
 
 	<!-- 일반 파일 업로드 경로 -->
@@ -110,7 +110,7 @@
       <beans:property name="host" value="smtp.gmail.com" />
       <beans:property name="port" value="587" />
       <beans:property name="username" value="listSearchsendmail@gmail.com" />
-      <beans:property name="password" value="listsearchsendmail123" />
+      <beans:property name="password" value="   " />
       <beans:property name="javaMailProperties">
          <beans:props>
                <beans:prop key="mail.transport.protocol">smtp</beans:prop>
