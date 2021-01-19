@@ -20,7 +20,7 @@ import com.javalec.spring_mybatis.dto.MEMBERNAVERDTO;
 //CONSTRAINT UQ_EMAIL UNIQUE(EMAIL),
 //CONSTRAINT UQ_PHONE UNIQUE(PHONE),
 //CONSTRAINT CHK_ENABLED CHECK(ENABLED IN('Y', 'N'))
-//);
+//);.
 
 public interface MEMBERDAO {
 	
