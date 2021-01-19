@@ -66,10 +66,10 @@ public class MainController {
 	public String index(HttpSession session, Model model) {
 		
 		
-		//理쒖떊 �옉�꽦 湲�
+		  //최신 작성 글
 		MAINDAO dao = sqlSession.getMapper(MAINDAO.class);
 		model.addAttribute("mainlatest0", dao.mainlatest0());
-		model.addAttribute("mainlatest1", dao.mainlatest1()); // 留ㅺ컻蹂��닔 �벐�뒗寃�???
+		model.addAttribute("mainlatest1", dao.mainlatest1()); 
 		model.addAttribute("mainlatest2", dao.mainlatest2());
 		model.addAttribute("mainlatest3", dao.mainlatest3());
 		model.addAttribute("mainlatest4", dao.mainlatest4());
@@ -77,13 +77,13 @@ public class MainController {
 		
 		
 		
-		//硫ㅻ쾭 �옲�궧
+	     //멤버 랭킹
 		model.addAttribute("ranking", dao.ranking()); 
-		
-		
-		
-		// 濡쒓렇�씤而⑦듃濡ㅻ윭�뿉�꽌 setAttribute濡� �꽭�뀡�뿉 ���옣�븳 login媛앹껜瑜� dto濡� 遺덈윭�� �솕硫댁뿉 肉뚮━�옄.
-		MEMBERDTO dto = (MEMBERDTO) session.getAttribute("login");
+		model.addAttribute("ranking1", dao.ranking1()); 
+		model.addAttribute("ranking2", dao.ranking2()); 
+
+		// 로그인컨트롤러에서 setAttribute로 세션에 저장한 login객체를 dto로 불러와 화면에 뿌리자.
+        MEMBERDTO dto = (MEMBERDTO) session.getAttribute("login");
 		model.addAttribute("dto", dto);
 		
 		
