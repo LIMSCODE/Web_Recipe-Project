@@ -81,7 +81,7 @@ public class RestauController {
 		map.put("rowStart", a);
 		map.put("rowEnd", b);
 
-		//�떆�옉
+	      //시작
 		List list0 = new ArrayList();
 		list0 = dao.restauselect_0( map);
 		
@@ -109,7 +109,6 @@ public class RestauController {
 		
 		
 
-		//�떆�옉
 				List list1 = new ArrayList();
 				list1 = dao.restauselect_1( map);
 				
@@ -139,7 +138,7 @@ public class RestauController {
 
 				
 
-		//�럹�씠吏�
+		//페이징
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(dao.restauCount(dto));
@@ -188,7 +187,7 @@ public class RestauController {
 		map.put("rowStart", a);
 		map.put("rowEnd", b);
 
-		//�떆�옉
+	      //시작
 		List list0 = new ArrayList();
 		list0 = dao.restauselect_0( map);
 		
@@ -215,7 +214,7 @@ public class RestauController {
 		
 		
 		
-		//�떆�옉
+		
 				List list1 = new ArrayList();
 				list1 = dao.restauselect_1( map);
 				
@@ -245,7 +244,7 @@ public class RestauController {
 
 				
 
-		//�럹�씠吏�
+		//페이징
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(dao.restauCount(dto));
@@ -261,6 +260,7 @@ public class RestauController {
 	
 	
 
+	//목록 띄우기
 	@RequestMapping("/restausearch1")
 	public String restausearch1(@ModelAttribute("cri") Criteria cri, Model model, HttpServletRequest request, 
 			 HttpSession session, @RequestParam("page") String page, @RequestParam("perPageNum") String perPageNum) {
@@ -297,7 +297,7 @@ public class RestauController {
 		map.put("rowStart", a1);
 		map.put("rowEnd", b1);
 
-		//�떆�옉
+
 		List list0 = new ArrayList();
 		list0 = dao.restauselect_0( map);
 		
@@ -324,7 +324,7 @@ public class RestauController {
 		
 		
 		
-		//�떆�옉
+
 				List list1 = new ArrayList();
 				list1 = dao.restauselect_1( map);
 				
@@ -349,7 +349,7 @@ public class RestauController {
 				
 
 
-		//�럹�씠吏�
+
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(dao.restauCount(dto));
@@ -386,14 +386,16 @@ public class RestauController {
 		RESTAUDAO dao = sqlSession.getMapper(RESTAUDAO.class);
 
 		String[] bikeList = request.getParameterValues("restau");
-		// bike01.js�뿉�꽌
-		// 諛몃쪟媛믪쓣 hidden �씤�뭼�깭洹몃줈 �닲寃⑥꽌 �쟾�넚�븿. name='bike'
+		 // bike01.js에서
+	      // 밸류값을 hidden 인풋태그로 숨겨서 전송함. name='bike'
+
 
 		for (int i = 0; i < bikeList.length; i++) {
 			String[] tmp = bikeList[i].split("/");
 
-			// bikeList 諛곗뿴�쓣 �굹�늿�썑 tmp諛곗뿴�뿉 ���옣.
-			// tmp瑜� dto�뿉 ���옣
+			 // bikeList 배열을 나눈후 tmp배열에 저장.
+	         // tmp를 dto에 저장
+
 			RESTAUDTO dto = new RESTAUDTO(tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], tmp[6]);
 			dao.restauinsert(dto);
 
