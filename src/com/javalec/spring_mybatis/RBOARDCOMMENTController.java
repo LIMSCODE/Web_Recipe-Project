@@ -54,7 +54,7 @@ public class RBOARDCOMMENTController {
 		String commentcontent = request.getParameter("commentcontent");
 		
 
-		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login"); // �꽭�뀡�뿉 �떞�� 濡쒓렇�씤�젙蹂� 媛��졇�샂
+		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login");
 		model.addAttribute("dto2", dto2);
 
 		String memberImg = dto2.getMemberImg();
@@ -62,12 +62,12 @@ public class RBOARDCOMMENTController {
 		dao.insert(boardno, commentwriter, commentcontent, memberImg);
 		
 		
-		//�뙎湲��닔 �뾽�뜲�씠�듃
+		  //댓글수 업데이트
 		RBOARDDAO dao1 = sqlSession.getMapper(RBOARDDAO.class);
 		dao1.updateComment(boardno);
 
 		
-		//redirect�떆 �룎�븘媛� boardno
+	      //redirect시 돌아갈 boardno
 		redirectAttributes.addAttribute("boardno", boardno);
 
 		return "redirect:rboard_detail";
@@ -76,40 +76,41 @@ public class RBOARDCOMMENTController {
 	@RequestMapping("/rboard_detail_commentupdateform")
 	public String rboard_detail_commentupdateform( HttpSession session ,HttpServletRequest request, Model model) {
 		
-        //�듅�젙 寃뚯떆湲�
-		RBOARDDAO dao = sqlSession.getMapper(RBOARDDAO.class); // xml�뿉�꽌 selectOne荑쇰━媛��졇�� �떎�뻾�븯湲� �쐞�븿
+        //특정 게시글
+		RBOARDDAO dao = sqlSession.getMapper(RBOARDDAO.class);  // xml에서 selectOne쿼리가져와 실행하기 위함
 
 		
 		int boardno = Integer.parseInt(request.getParameter("boardno"));
 		
-		model.addAttribute("dto", dao.selectOne(boardno)); // 寃뚯떆�뙋 �븯�굹 媛��졇�삩 寃곌낵瑜� 紐⑤뜽�뿉 �룷�븿�떆
-		model.addAttribute("commentlist", dao.AllList(boardno)); // �뙎湲�紐⑸줉 遺덈윭�삤�뒗嫄� rboard_detail�뿉�꽌 �빐遊�.
+		model.addAttribute("dto", dao.selectOne(boardno));  // 게시판 하나 가져온 결과를 모델에 포함시
+    	model.addAttribute("commentlist", dao.AllList(boardno));  // 댓글목록 불러오는걸 rboard_detail에서 해봄.
+
 		
-		
-		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login"); // �꽭�뀡�뿉 �떞�� 濡쒓렇�씤�젙蹂� 媛��졇�샂
+		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login"); // 세션에 담은 로그인정보 가져옴
+
 		model.addAttribute("dto2", dto2);
 
-		// 泥⑤��맂 �궗吏� 異쒕젰
+	      // 첨부된 사진 출력
 		List<uploadFileDTO> uploadFileList = dao.getFileList(boardno);
 		model.addAttribute("uploadFileList", uploadFileList);
-			
-		//議고쉶�닔
+	      //조회수
 		model.addAttribute("readcount",dao.boardHit(boardno));
 		
 
 		
 		
-		//�듅�젙 �뙎湲� �닔�젙�븯�뒗 李�
-		RBOARDCOMMENTDAO dao1 = sqlSession.getMapper(RBOARDCOMMENTDAO.class); // xml�뿉�꽌 selectOne荑쇰━媛��졇�� �떎�뻾�븯湲� �쐞�븿
+	      //특정 댓글 수정하는 창
+		RBOARDCOMMENTDAO dao1 = sqlSession.getMapper(RBOARDCOMMENTDAO.class); // xml에서 selectOne쿼리가져와 실행하기 위함
 
 		int commentno = Integer.parseInt(request.getParameter("commentno"));
-		System.out.println(commentno); // 媛��졇��吏�.
+		System.out.println(commentno); // 가져와짐.
 		
-		model.addAttribute("dto1", dao1.selectComment(commentno)); // 媛��졇�삩 寃곌낵瑜� 紐⑤뜽�뿉 �룷�븿�떆
-		
-		//�썝�옒 �옉�꽦�맂 湲��쓽 �젙蹂대�� updateform�럹�씠吏��뿉 �쓣�슫�떎.
-		
+		model.addAttribute("dto1", dao1.selectComment(commentno));  
 
+		 // 가져온 결과를 모델에 포함시
+
+		
+		  //원래 작성된 글의 정보를 updateform페이지에 띄운다.
 		return "/rboard_detail_commentupdateform";
 	
 	}
@@ -126,16 +127,16 @@ public class RBOARDCOMMENTController {
 		
 		RBOARDCOMMENTDAO dao = sqlSession.getMapper(RBOARDCOMMENTDAO.class);
 
-		// �뤌�깭洹멸컪�뱾 �쟾�떖
+	      // 폼태그값들 전달
 
 		String commentcontent = request.getParameter("commentcontenta");
 		
-		System.out.println(commentcontent); //諛붾�먮궡�슜
+		System.out.println(commentcontent); //바뀐내용
 		
 		
 		
-		// 濡쒓렇�씤而⑦듃濡ㅻ윭�뿉�꽌 setAttribute濡� �꽭�뀡�뿉 ���옣�븳 login媛앹껜瑜� dto濡� 遺덈윭�� �솕硫댁뿉 肉뚮━�옄.
-		MEMBERDTO memberdto = (MEMBERDTO) session.getAttribute("login");
+		 // 로그인컨트롤러에서 setAttribute로 세션에 저장한 login객체를 dto로 불러와 화면에 뿌리자.
+    	MEMBERDTO memberdto = (MEMBERDTO) session.getAttribute("login");
 		
 		
 		RBOARDCOMMENTDTO dto = new RBOARDCOMMENTDTO();
@@ -147,20 +148,20 @@ public class RBOARDCOMMENTController {
 		dto.setCommentcontent(commentcontent);
 
 		
-		//�닔�젙
+	      //수정
 		dao.rboard_comment_update(dto);
 
 
-		// 濡쒓렇�씤�꽭�뀡媛��졇�삤湲�(�쐞濡� �삷源�)
-		//酉곗뿉 濡쒓렇�씤�꽭�뀡 肉뚮┝
+	      // 로그인세션가져오기(위로 옮김)
+	      //뷰에 로그인세션 뿌림
 		model.addAttribute("memberdto", memberdto);
 		
 		
-		//redirect�떆 �룎�븘媛� boardno
+	      //redirect시 돌아갈 boardno
 		redirectAttributes.addAttribute("boardno", boardno);
 	
 		
-		return "redirect:rboard_detail"; // redirect�뒗 �젙蹂댄룷�븿�빐�꽌 蹂대깂.
+		return "redirect:rboard_detail";  // redirect는 정보포함해서 보냄.
 	}
 	
 
@@ -171,23 +172,20 @@ public class RBOARDCOMMENTController {
 		
 		RBOARDCOMMENTDAO dao = sqlSession.getMapper(RBOARDCOMMENTDAO.class);
 
-		//�닔�젙
+
 		dao.rboard_comment_delete(commentno);
 
 		
-		// 濡쒓렇�씤而⑦듃濡ㅻ윭�뿉�꽌 setAttribute濡� �꽭�뀡�뿉 ���옣�븳 login媛앹껜瑜� dto濡� 遺덈윭�� �솕硫댁뿉 肉뚮━�옄.
 		MEMBERDTO memberdto = (MEMBERDTO) session.getAttribute("login");
 		
-		// 濡쒓렇�씤�꽭�뀡媛��졇�삤湲�(�쐞濡� �삷源�)
-		//酉곗뿉 濡쒓렇�씤�꽭�뀡 肉뚮┝
+		
 		model.addAttribute("memberdto", memberdto);
 		
 		
-		//redirect�떆 �룎�븘媛� boardno
 		redirectAttributes.addAttribute("boardno", boardno);
 	
 		
-		return "redirect:rboard_detail"; // redirect�뒗 �젙蹂댄룷�븿�빐�꽌 蹂대깂.
+		return "redirect:rboard_detail";
 	}
 	
 	
@@ -205,7 +203,7 @@ public class RBOARDCOMMENTController {
 		String commentcontent = request.getParameter("commentcontent");
 		
 
-		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login"); // �꽭�뀡�뿉 �떞�� 濡쒓렇�씤�젙蹂� 媛��졇�샂
+		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login"); 
 		model.addAttribute("dto2", dto2);
 
 		String memberImg = dto2.getMemberImg();
@@ -213,12 +211,11 @@ public class RBOARDCOMMENTController {
 		dao.Rinsert(reviewboardno, commentwriter, commentcontent, memberImg);
 		
 		
-		//�뙎湲��닔 �뾽�뜲�씠�듃
+	
 		REVIEWBOARDDAO dao1 = sqlSession.getMapper(REVIEWBOARDDAO.class);
 		dao1.RupdateComment(reviewboardno);
 
-		
-		//redirect�떆 �룎�븘媛� boardno
+
 		redirectAttributes.addAttribute("reviewboardno", reviewboardno);
 
 		return "redirect:reviewboard_detail";
@@ -227,38 +224,37 @@ public class RBOARDCOMMENTController {
 	@RequestMapping("/reviewboard_detail_commentupdateform")
 	public String reviewboard_detail_commentupdateform( HttpSession session ,HttpServletRequest request, Model model) {
 		
-        //�듅�젙 寃뚯떆湲�
-		REVIEWBOARDDAO dao = sqlSession.getMapper(REVIEWBOARDDAO.class); // xml�뿉�꽌 selectOne荑쇰━媛��졇�� �떎�뻾�븯湲� �쐞�븿
+
+		REVIEWBOARDDAO dao = sqlSession.getMapper(REVIEWBOARDDAO.class); 
 
 		
 		int reviewboardno = Integer.parseInt(request.getParameter("reviewboardno"));
 		
-		model.addAttribute("dto", dao.RselectOne(reviewboardno)); // 寃뚯떆�뙋 �븯�굹 媛��졇�삩 寃곌낵瑜� 紐⑤뜽�뿉 �룷�븿�떆
-		model.addAttribute("commentlist", dao.RAllList(reviewboardno)); // �뙎湲�紐⑸줉 遺덈윭�삤�뒗嫄� rboard_detail�뿉�꽌 �빐遊�.
+		model.addAttribute("dto", dao.RselectOne(reviewboardno)); 
+		model.addAttribute("commentlist", dao.RAllList(reviewboardno)); 
 		
 		
-		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login"); // �꽭�뀡�뿉 �떞�� 濡쒓렇�씤�젙蹂� 媛��졇�샂
+		MEMBERDTO dto2 = (MEMBERDTO) session.getAttribute("login"); 
 		model.addAttribute("dto2", dto2);
 
-		// 泥⑤��맂 �궗吏� 異쒕젰
+	
 		List<uploadFileDTO> uploadFileList = dao.RgetFileList(reviewboardno);
 		model.addAttribute("uploadFileList", uploadFileList);
 			
-		//議고쉶�닔
+
 		model.addAttribute("readcount",dao.RboardHit(reviewboardno));
 		
 
 		
 		
-		//�듅�젙 �뙎湲� �닔�젙�븯�뒗 李�
-		REVIEWBOARDCOMMENTDAO dao1 = sqlSession.getMapper(REVIEWBOARDCOMMENTDAO.class); // xml�뿉�꽌 selectOne荑쇰━媛��졇�� �떎�뻾�븯湲� �쐞�븿
+
+		REVIEWBOARDCOMMENTDAO dao1 = sqlSession.getMapper(REVIEWBOARDCOMMENTDAO.class); 
 
 		int commentno = Integer.parseInt(request.getParameter("commentno"));
-		System.out.println(commentno); // 媛��졇��吏�.
+		System.out.println(commentno); 
 		
-		model.addAttribute("dto1", dao1.RselectComment(commentno)); // 媛��졇�삩 寃곌낵瑜� 紐⑤뜽�뿉 �룷�븿�떆
-		
-		//�썝�옒 �옉�꽦�맂 湲��쓽 �젙蹂대�� updateform�럹�씠吏��뿉 �쓣�슫�떎.
+		model.addAttribute("dto1", dao1.RselectComment(commentno));
+	
 		
 
 		return "/reviewboard_detail_commentupdateform";
@@ -277,15 +273,14 @@ public class RBOARDCOMMENTController {
 		
 		REVIEWBOARDCOMMENTDAO dao = sqlSession.getMapper(REVIEWBOARDCOMMENTDAO.class);
 
-		// �뤌�깭洹멸컪�뱾 �쟾�떖
+	
 
 		String commentcontent = request.getParameter("commentcontenta");
 		
-		System.out.println(commentcontent); //諛붾�먮궡�슜
+		System.out.println(commentcontent);
 		
 		
 		
-		// 濡쒓렇�씤而⑦듃濡ㅻ윭�뿉�꽌 setAttribute濡� �꽭�뀡�뿉 ���옣�븳 login媛앹껜瑜� dto濡� 遺덈윭�� �솕硫댁뿉 肉뚮━�옄.
 		MEMBERDTO memberdto = (MEMBERDTO) session.getAttribute("login");
 		
 		
@@ -298,20 +293,18 @@ public class RBOARDCOMMENTController {
 		dto.setCommentcontent(commentcontent);
 
 		
-		//�닔�젙
+	
 		dao.Rrboard_comment_update(dto);
 
 
-		// 濡쒓렇�씤�꽭�뀡媛��졇�삤湲�(�쐞濡� �삷源�)
-		//酉곗뿉 濡쒓렇�씤�꽭�뀡 肉뚮┝
+		
 		model.addAttribute("memberdto", memberdto);
 		
-		
-		//redirect�떆 �룎�븘媛� boardno
+	
 		redirectAttributes.addAttribute("reviewboardno", reviewboardno);
 	
 		
-		return "redirect:reviewboard_detail"; // redirect�뒗 �젙蹂댄룷�븿�빐�꽌 蹂대깂.
+		return "redirect:reviewboard_detail";
 	}
 	
 	
@@ -322,23 +315,20 @@ public class RBOARDCOMMENTController {
 		
 		REVIEWBOARDCOMMENTDAO dao = sqlSession.getMapper(REVIEWBOARDCOMMENTDAO.class);
 
-		//�닔�젙
+
 		dao.Rrboard_comment_delete(commentno);
 
 		
-		// 濡쒓렇�씤而⑦듃濡ㅻ윭�뿉�꽌 setAttribute濡� �꽭�뀡�뿉 ���옣�븳 login媛앹껜瑜� dto濡� 遺덈윭�� �솕硫댁뿉 肉뚮━�옄.
 		MEMBERDTO memberdto = (MEMBERDTO) session.getAttribute("login");
 		
-		// 濡쒓렇�씤�꽭�뀡媛��졇�삤湲�(�쐞濡� �삷源�)
-		//酉곗뿉 濡쒓렇�씤�꽭�뀡 肉뚮┝
+	
 		model.addAttribute("memberdto", memberdto);
 		
 		
-		//redirect�떆 �룎�븘媛� boardno
 		redirectAttributes.addAttribute("reviewboardno", reviewboardno);
 	
 		
-		return "redirect:reviewboard_detail"; // redirect�뒗 �젙蹂댄룷�븿�빐�꽌 蹂대깂.
+		return "redirect:reviewboard_detail"; 
 	}
 	
 
