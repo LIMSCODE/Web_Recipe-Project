@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.javalec.spring_mybatis.dao.MYPAGEDAO">
+
+	<select id="MyRBoard"
+		resultType="com.javalec.spring_mybatis.dto.RBOARDDTO" parameterType="map">
+		SELECT * FROM RBOARD WHERE MEMBERID=#{id, jdbcType=VARCHAR} ORDER BY
+		BOARDNO DESC
+	</select>
+	
+   <select id="MyLike"
+		resultType="com.javalec.spring_mybatis.dto.RBOARDDTO" parameterType="map">
+		SELECT * FROM RBOARD r 
+		
+		WHERE r.BOARDNO = ANY
+		(SELECT BOARDNO FROM RBOARDLIKE 
+		 WHERE LIKEMEMBERID=#{id , jdbcType=VARCHAR}
+		 )
+		ORDER BY
+		r.BOARDNO DESC
+	</select>
+	
+	<update id="PlusPoint" parameterType="com.javalec.spring_mybatis.dto.MEMBERDTO">
+	    UPDATE MEMBER SET POINT+=100 WHERE ID=#{id}
+	</update>
+	<update id="PlusPoint1" parameterType="com.javalec.spring_mybatis.dto.MEMBERDTO">
+	    UPDATE MEMBER SET POINT=POINT+10 WHERE ID=#{id}
+	</update>
+	
+	<update id="updatemember"
+		parameterType="com.javalec.spring_mybatis.dto.MEMBERDTO">
+		UPDATE member 
+		SET pw=#{pw}, name=#{name},
+		email=#{email}, phone=#{phone}, memberImg=#{memberImg} , memberThumbImg=#{memberThumbImg}
+		WHERE id= #{id}
+	</update>
+	
+	
+	<delete id="deletemember"
+		parameterType="com.javalec.spring_mybatis.dto.MEMBERDTO">
+		delete from member where id = #{id} 
+	</delete>
+	
+</mapper>

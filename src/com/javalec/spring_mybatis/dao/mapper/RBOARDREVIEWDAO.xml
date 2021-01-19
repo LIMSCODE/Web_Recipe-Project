@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.javalec.spring_mybatis.dao.REVIEWBOARDDAO">
+	<select id="RselectAll"
+		resultType="com.javalec.spring_mybatis.dto.REVIEWBOARDDTO">
+		SELECT * FROM REVIEWBOARD ORDER BY REVIEWBOARDNO DESC
+	</select>
+
+	<select id="RAllList"
+		resultType="com.javalec.spring_mybatis.dto.REVIEWBOARDCOMMENTDTO">
+		SELECT * FROM REVIEWBOARDCOMMENT WHERE REVIEWBOARDNO = #{param1} ORDER
+		BY COMMENTNO
+		DESC
+	</select>
+
+
+	<select id="RselectOne" parameterType="int"
+		resultType="com.javalec.spring_mybatis.dto.REVIEWBOARDDTO">
+		SELECT * FROM REVIEWBOARD WHERE REVIEWBOARDNO = #{param1}
+	</select>
+
+	<insert id="Rinsert"
+		parameterType="com.javalec.spring_mybatis.dto.REVIEWBOARDDTO">
+		INSERT INTO REVIEWBOARD VALUES(REVIEWBOARDSEQ.NEXTVAL, #{rboardno},
+		#{title},
+		#{memberid}, #{content,jdbcType=CLOB}, sysdate,
+		default,
+		#{gdsImg}, #{gdsThumbImg},
+		#{foodkind , jdbcType=VARCHAR },
+		#{countrykind , jdbcType=VARCHAR }, #{timekind, jdbcType=VARCHAR },
+		#{majormat}, #{minormat}, default , #{memberImg, jdbcType=VARCHAR}  )
+	</insert>
+
+	<delete id="Rdelete"
+		parameterType="com.javalec.spring_mybatis.dto.REVIEWBOARDDTO">
+		DELETE FROM REVIEWBOARD WHERE REVIEWBOARDNO = #{param1}
+	</delete>
+
+	<update id="Rrboard_update"
+		parameterType="com.javalec.spring_mybatis.dto.REVIEWBOARDDTO">
+		UPDATE REVIEWBOARD
+		SET TITLE=#{title}, CONTENT=#{content}, 
+		GDSIMG=#{gdsImg}, GDSTHUMBIMG=#{gdsThumbImg}, foodkind=#{foodkind}, 
+		countrykind=#{countrykind}, timekind=#{timekind},
+		majormat=#{majormat}, minormat=#{minormat}
+		WHERE REVIEWBOARDNO= #{reviewboardno}
+	</update>
+
+	<delete id="RmultiDelete"
+		parameterType="com.javalec.spring_mybatis.dto.REVIEWBOARDDTO">
+		DELETE FROM REVIEWBOARD WHERE REVIEWBOARDNO IN
+		<foreach collection="array" item="seq" open="(" separator=","
+			close=")">
+			#{seq}
+		</foreach>
+	</delete>
+
+
+	<insert id="RuploadFile" parameterType="HashMap">
+		INSERT INTO REVIEW_FILE_TABLE
+		VALUES (review_file_num.nextval, #{originalfileName},
+		#{saveFileName},
+		#{fileSize}, (SELECT MAX(REVIEWBOARDNO) FROM REVIEWBOARD) )
+
+	</insert>
+
+	<select id="RgetFileList"
+		resultType="com.javalec.spring_mybatis.dto.uploadFileDTO" >
+		SELECT * FROM REVIEW_FILE_TABLE WHERE ARTICLE_NUM=#{reviewboardno}
+	</select>
+	
+	
+	<!-- 조회수, 댓글수 -->
+	<update id="RboardHit" parameterType="int"> 
+	      update REVIEWBOARD set readcount=readcount+1 where reviewboardno=#{reviewboardno} 
+	</update>
+	
+	<update id="RupdateComment" parameterType="int">
+	      update REVIEWBOARD r set r.commentcount=
+	      (select count(*) from reviewboard where reviewboardno=#{reviewboardno}) 
+	      where r.reviewboardno=#{reviewboardno}
+	</update>
+	
+	
+	
+	
+	
+
+
+	<!--RBOARD (listSearchsendmail)들어갔을때 , 전체 불러올 글개수-->
+	<select id="RlistRboard"
+		resultType="com.javalec.spring_mybatis.dto.REVIEWBOARDDTO"
+		parameterType="com.javalec.spring_mybatis.dto.Criteria">
+
+		select boardno, title, memberid, content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat, commentcount, memberimg
+		from (
+		select boardno, title, memberid,
+		content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat,  
+		commentcount, memberimg,
+		row_number()
+		over(order by boardno desc)
+		as rNum 
+		from REVIEWBOARD
+		) mb
+		where rNum between #{rowStart} and #{rowEnd}
+		order by boardno desc
+
+	</select>
+	
+	<select id="RlistCount" resultType="int">
+		select count(*) from REVIEWBOARD
+	</select>
+	
+	
+    <!-- 검색결과를 조회수높은순부터 출력하기 -->
+	<select id="Rorderbyreadcount"
+		resultType="com.javalec.spring_mybatis.dto.REVIEWBOARDDTO"
+		parameterType="com.javalec.spring_mybatis.dto.Criteria">
+
+		select boardno, title, memberid, content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat, commentcount
+		from (
+		select boardno, title, memberid,
+		content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat,  
+		commentcount,
+		row_number()
+		over(order by boardno desc)
+		as rNum 
+		from REVIEWBOARD
+		) mb
+		where rNum between #{rowStart} and #{rowEnd}
+		order by readcount desc
+	</select>
+	
+	
+	<!-- 검색결과를 조회수높은순부터 출력하기 -->
+	<select id="Rorderbycommentcount"
+		resultType="com.javalec.spring_mybatis.dto.REVIEWBOARDDTO"
+		parameterType="com.javalec.spring_mybatis.dto.Criteria">
+
+		select boardno, title, memberid, content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat, commentcount
+		from (
+		select boardno, title, memberid,
+		content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat,  
+		commentcount,
+		row_number()
+		over(order by boardno desc)
+		as rNum 
+		from REVIEWBOARD
+		) mb
+		where rNum between #{rowStart} and #{rowEnd}
+		order by commentcount desc
+	</select>
+	
+	
+
+	<!-- 검색한 결과, 검색조건에맞는 글개수 -->
+	<select id="RlistSearch"
+		resultType="com.javalec.spring_mybatis.dto.REVIEWBOARDDTO"
+		parameterType="com.javalec.spring_mybatis.dto.SearchCriteria">
+
+		select 
+		reviewboardno, rboardno, 
+		title, memberid, content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat, 
+		commentcount, memberimg
+		from (
+		select 
+		reviewboardno, rboardno, 
+		title, memberid, content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat, 
+		commentcount, memberimg,
+		row_number()
+		over(order by reviewboardno desc)
+		as rNum 
+		from REVIEWBOARD
+		<include refid="Rsearch"></include>
+		) mb
+		where rNum between #{rowStart} and #{rowEnd}
+		order by reviewboardno desc
+
+	</select>
+	
+	<sql id="Rsearch">
+			<if test="foodList!= null">
+				where foodkind in
+				<foreach item="fk" collection="foodList" open="(" close=")"
+					separator=",">
+					#{fk}
+				</foreach>
+			</if>
+			<if test="countryList != null">
+				and countrykind in
+				<foreach item="ck" collection="countryList" open="("
+					close=")" separator=",">
+					#{ck}
+				</foreach>
+			</if>
+			<if test="timeList != null">
+				and timekind in
+				<foreach item="tk" collection="timeList" open="(" close=")"
+					separator=",">
+					#{tk}
+				</foreach>
+			</if>
+			<choose>
+				<when test="SearchType == 'id'">
+					and memberid like '%' || #{SearchWord} || '%'
+				</when>
+				<when test="SearchType == 'title'">
+					and title like '%' || #{SearchWord} || '%'
+				</when>
+			</choose>
+	</sql>
+
+
+	<!-- 검색어에 맞는 게시물 개수 -->
+	<select id="RcountSearch" resultType="int"
+		parameterType="com.javalec.spring_mybatis.dto.SearchCriteria">
+		select count(reviewboardno)
+		from REVIEWBOARD
+        <include refid="Rsearch"></include>
+	</select>
+	
+
+	
+    <!-- 검색결과를 조회수높은순부터 출력하기 -->
+	<select id="Rsearchorderbyreadcount"
+		resultType="com.javalec.spring_mybatis.dto.REVIEWBOARDDTO"
+		parameterType="com.javalec.spring_mybatis.dto.SearchCriteria">
+
+		select boardno, title, memberid, content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat, commentcount
+		from (
+		select boardno, title, memberid,
+		content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat,  
+		commentcount,
+		row_number()
+		over(order by boardno desc)
+		as rNum 
+		from REVIEWBOARD
+		<include refid="Rsearch"></include>
+		) mb
+		where rNum between #{rowStart} and #{rowEnd}
+		order by readcount desc
+
+	</select>
+	
+	
+	<!-- 검색결과를 조회수높은순부터 출력하기 -->
+	<select id="Rsearchorderbycommentcount"
+		resultType="com.javalec.spring_mybatis.dto.REVIEWBOARDDTO"
+		parameterType="com.javalec.spring_mybatis.dto.SearchCriteria">
+
+		select boardno, title, memberid, content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat, commentcount
+		from (
+		select boardno, title, memberid,
+		content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat,  
+		commentcount,
+		row_number()
+		over(order by boardno desc)
+		as rNum 
+		from REVIEWBOARD
+		<include refid="Rsearch"></include>
+		) mb
+		where rNum between #{rowStart} and #{rowEnd}
+		order by commentcount desc
+	</select>
+	
+	
+	
+	<select id="Rmadeby"
+		resultType="com.javalec.spring_mybatis.dto.REVIEWBOARDDTO" parameterType="map">
+		SELECT * FROM REVIEWBOARD WHERE MEMBERID=#{id, jdbcType=VARCHAR} ORDER BY
+		BOARDNO DESC
+	</select>
+
+
+
+	
+	
+	
+
+
+
+</mapper>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.javalec.spring_mybatis.dao.MAINDAO">
+
+
+<!-- 검색 -->
+	<select id="listSearch2"
+		resultType="com.javalec.spring_mybatis.dto.RBOARDDTO"
+		parameterType="com.javalec.spring_mybatis.dto.SearchCriteria">
+
+		select boardno, title, memberid, content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat, commentcount, memberimg
+		from (
+		select boardno, title, memberid,
+		content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat,  
+		commentcount, memberimg,
+		row_number()
+		over(order by boardno desc)
+		as rNum 
+		from RBOARD 
+		<include refid="search"></include>
+		) mb
+		where rNum between #{rowStart} and #{rowEnd}
+		order by boardno desc
+
+	</select>
+	
+	<sql id="search">
+
+			<if test="foodList!= null">
+				where foodkind in
+				<foreach item="fk" collection="foodList" open="(" close=")"
+					separator=",">
+					#{fk}
+				</foreach>
+			</if>
+			<if test="countryList != null">
+				and countrykind in
+				<foreach item="ck" collection="countryList" open="("
+					close=")" separator=",">
+					#{ck}
+				</foreach>
+			</if>
+			<if test="timeList != null">
+				and timekind in
+				<foreach item="tk" collection="timeList" open="(" close=")"
+					separator=",">
+					#{tk}
+				</foreach>
+			</if>
+	
+	</sql>
+	
+	
+	<select id="listCount" resultType="int">
+		select count(*) from rboard
+	</select>
+	
+	    <!-- 검색결과를 조회수높은순부터 출력하기 -->
+	<select id="orderbyreadcount"
+		resultType="com.javalec.spring_mybatis.dto.RBOARDDTO"
+		parameterType="com.javalec.spring_mybatis.dto.SearchCriteria">
+
+		select boardno, title, memberid, content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat, commentcount
+		from (
+		select boardno, title, memberid,
+		content, reg_Date,
+		readcount, gdsimg,
+		gdsthumbimg,
+		foodkind, countrykind, timekind, majormat, minormat,  
+		commentcount,
+		row_number()
+		over(order by boardno desc)
+		as rNum 
+		from RBOARD
+		<include refid="search"></include>
+		) mb
+		where rNum between #{rowStart} and #{rowEnd}
+		order by readcount desc
+
+	</select>
+	
+	
+	
+	 <select id="mainlatest0" resultType="com.javalec.spring_mybatis.dto.RBOARDDTO">
+	    select
+       *
+       from  ( select boardno,title,memberid,content
+        ,REG_DATE
+        , readcount,gdsimg
+        ,gdsthumbimg,foodkind
+        ,countrykind,timekind
+       ,majormat,minormat,commentcount,memberimg from rboard order by boardno desc
+        )
+        where ROWNUM between 1 and 4
+        
+   </select>
+
+   
+
+
+   <select id="mainlatest1" resultType="com.javalec.spring_mybatis.dto.RBOARDDTO">
+	    select
+       *
+       from  ( select boardno,title,memberid,content
+        ,REG_DATE
+        , readcount,gdsimg
+        ,gdsthumbimg,foodkind
+        ,countrykind,timekind
+       ,majormat,minormat,commentcount,memberimg from rboard 
+       <include refid="search1"></include>
+        )
+        where ROWNUM between 1 and 4
+        order by boardno desc
+   </select>
+	<sql id="search1">
+				where foodkind like '%밥%'
+	</sql>
+   
+   
+      <select id="mainlatest2" resultType="com.javalec.spring_mybatis.dto.RBOARDDTO">
+	    select
+       *
+       from  ( select boardno,title,memberid,content
+        ,REG_DATE
+        , readcount,gdsimg
+        ,gdsthumbimg,foodkind
+        ,countrykind,timekind
+       ,majormat,minormat,commentcount,memberimg from rboard 
+       <include refid="search2"></include>
+        )
+        where ROWNUM between 1 and 4
+        order by boardno desc
+   </select>
+	<sql id="search2">
+				where foodkind like '%빵%'
+	</sql>
+   
+   
+      <select id="mainlatest3" resultType="com.javalec.spring_mybatis.dto.RBOARDDTO">
+	    select
+       *
+       from  ( select boardno,title,memberid,content
+        ,REG_DATE
+        , readcount,gdsimg
+        ,gdsthumbimg,foodkind
+        ,countrykind,timekind
+       ,majormat,minormat,commentcount,memberimg from rboard 
+       <include refid="search3"></include>
+        )
+        where ROWNUM between 1 and 4
+        order by boardno desc
+   </select>
+	<sql id="search3">
+				where foodkind  like '%면%'
+	</sql>
+   
+   
+         <select id="mainlatest4" resultType="com.javalec.spring_mybatis.dto.RBOARDDTO">
+	    select
+       *
+       from  ( select boardno,title,memberid,content
+        ,REG_DATE
+        , readcount,gdsimg
+        ,gdsthumbimg,foodkind
+        ,countrykind,timekind
+       ,majormat,minormat,commentcount,memberimg from rboard 
+       <include refid="search4"></include>
+        )
+        where ROWNUM between 1 and 4
+        order by boardno desc
+   </select>
+	<sql id="search4">
+				where foodkind like '%밑반찬%'
+	</sql>
+	
+	
+	
+	
+	
+	<select id="mainlatest5" resultType="com.javalec.spring_mybatis.dto.RBOARDDTO">
+	    select
+       *
+       from  ( select boardno,title,memberid,content
+        ,REG_DATE
+        , readcount,gdsimg
+        ,gdsthumbimg,foodkind
+        ,countrykind,timekind
+       ,majormat,minormat,commentcount,memberimg from rboard 
+       <include refid="search5"></include>
+        )
+        where ROWNUM between 1 and 4
+        order by boardno desc
+   </select>
+	<sql id="search5">
+				where foodkind like '%디저트%'
+	</sql>
+   
+
+
+   
+   <select id="ranking" resultType="com.javalec.spring_mybatis.dto.MEMBERDTO">
+   
+	 SELECT * FROM (SELECT ROWNUM AS RNUM, A.* FROM MEMBER A order by point desc) B WHERE B.RNUM between 0 and 5
+   </select>
+ 
+   
+   
+   <select id="reviews" resultType="com.javalec.spring_mybatis.dto.REVIEWBOARDDTO">
+	    select * from  
+	    ( select reviewboardno, rboardno, title,memberid,content
+        ,REG_DATE
+        , readcount,gdsimg
+        ,gdsthumbimg,foodkind
+        ,countrykind,timekind
+       ,majormat,minormat,commentcount,memberimg from reviewboard order by reviewboardno desc
+        )
+        where ROWNUM between 1 and 20
+        
+   </select>
+   
+   
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.javalec.spring_mybatis.dao.RESTAUDAO">
+
+
+	<insert id="restauinsert"
+		parameterType="com.javalec.spring_mybatis.dto.RESTAUDTO">
+		INSERT INTO RESTAU VALUES(#{upso_nm},
+		#{admdng_nm}, #{site_addr},
+		#{site_addr_rd}, #{upso_site_telno}, #{snt_uptae_nm},#{dcb_ymd})
+	
+	</insert>
+
+
+	<select id="restauselect_0"
+		resultType="com.javalec.spring_mybatis.dto.RESTAUDTO" 
+		parameterType="HashMap">
+          
+
+		select upso_nm, admdng_nm, site_addr, site_addr_rd, upso_site_telno, snt_uptae_nm, dcb_ymd
+		from (
+		select upso_nm, admdng_nm, site_addr, site_addr_rd, upso_site_telno, snt_uptae_nm, dcb_ymd,
+		row_number()
+		over(order by upso_nm)
+		as rNum 
+		from RESTAU
+		<include refid="search1"></include>
+		) restau1
+		
+		order by upso_nm
+
+	</select>
+	
+	<sql id="search1">
+          where admdng_nm = #{admdng,jdbcType=VARCHAR} and snt_uptae_nm = #{restaukind,jdbcType=VARCHAR}
+	</sql>
+	
+	
+	<select id="restauselect_1"
+		resultType="com.javalec.spring_mybatis.dto.RESTAUDTO" 
+		parameterType="HashMap">
+          
+
+		select upso_nm, admdng_nm, site_addr, site_addr_rd, upso_site_telno, snt_uptae_nm, dcb_ymd
+		from (
+		select upso_nm, admdng_nm, site_addr, site_addr_rd, upso_site_telno, snt_uptae_nm, dcb_ymd,
+		row_number()
+		over(order by upso_nm)
+		as rNum 
+		from RESTAU
+		<include refid="search1"></include>
+		) restau1
+		where rNum between #{rowStart} and #{rowEnd}
+		order by upso_nm
+
+	</select>
+
+	
+	
+    <select id="restauCount" resultType="int" 
+    parameterType="com.javalec.spring_mybatis.dto.RESTAUSEARCHDTO">
+	
+		select count(*) from restau 
+		WHERE ADMDNG_NM LIKE #{admdng,jdbcType=VARCHAR} AND SNT_UPTAE_NM = #{restaukind,jdbcType=VARCHAR}
+	</select>
+
+
+
+
+</mapper>

@@ -1,0 +1,6 @@
+{
+"DESCRIPTION" : {"YY":"년도","TRDP_AREA":"영업장면적(㎡)","BDNG_JISG_FLR_NUM2":"지상_까지","ADMDNG_NM":"행정동명","TRDP_AREA_GUEST_SEAT":"영업장객석면적(㎡)","AREA_WRK":"작업장면적(㎡)","DCB_WHY":"폐업사유","BDNG_JISG_FLR_NUM":"지상_부터","SITE_ADDR_RD":"소재지도로명","TRDP_AREA_DANCE":"영업장무도장면적(㎡)","EIP_MAN":"종업원남","CN_PERM_ENDDT":"조건부허가종료일","GRADE_FACIL_GBN":"급수시설","PERM_NT_YMD":"허가신고일","AREA_ISP":"검사실면적(㎡)","TRDP_DISP_SIL_AR":"진열(판매)대면적(㎡)","UPSO_SNO":"업소일련번호","GE_EH_YN":"모범음식점여부","TRDP_WARE_DEPO_AR":"창고(보관소)면적(㎡)","UPSO_SITE_TELNO":"소재지전화번호","UPSO_NM":"업소명","SITE_ADDR":"소재지지번","PTSOF_SORT":"급식소종류","CGG_CODE":"시군구코드","ONE_PTSOF_STF":"1일급식인원수","SNT_COB_CODE":"업종코드","BDNG_UNDER_FLR_NUM":"지하_부터","KOR_FRGNR_GBN":"내외국인구분","ED_FIN_YMD":"교육수료일자","SITE_LOC_GBN":"업소위치","TOIL_ETC_AREA_UPSO":"타업소공동화장실면적(㎡)","ORDTM_PTSOF_AVG":"평균급식인원수","SITE_STDT":"소재지시작일","AVG_FOOD_AMT":"일인당평균급식비","TOIL_AREA_UPSO":"업소내화장실면적(㎡)","SNT_COB_NM":"업종명","BDNG_UNDER_FLR_NUM2":"지하_까지","DCB_GBN_NM":"폐업구분","TRDP_AREA_ETC":"영업장기타면적(㎡)","TRDP_AREA_JORIJANG":"영업장조리장면적(㎡)","TRDP_AREA_DRESS_ROOM":"영업장탈의실면적(㎡)","PERM_NT_NO":"허가(신고)번호","MNG_GBN":"운영형태","BMAN_STDT":"영업자시작일","ORDTM_PTSOF_MAX":"최대급식인원수","BUP_NM":"법인명","NTN":"국적","BDNG_TOT_FLR_NUM":"총층수","EIP_WOMAN":"종업원여","CN_PERM_STDT":"조건부허가시작일","TRDP_AREA_ROOM":"영업장객실면적(㎡)","DCB_YMD":"폐업일자","SNT_UPTAE_NM":"업태명"},
+"DATA" : [
+
+]
+}
