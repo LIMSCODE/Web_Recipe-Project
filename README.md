@@ -16,12 +16,10 @@
 4.카카오지도API로 식당검색하기
 
 #### 사용된 기술
-1. 주언어: JAVA
-2. 개발 플랫폼 : 이클립스
-3. 데이터베이스 : 오라클 , Mybatis
-4. 프레임워크 : Spring MVC, Bootstrap 
-5. 서버 : 톰캣
-6. API : 카카오지도, 구글이메일, 네이버로그인
-7. 언어 : Html, css, JS, jquery, Ajax, JSTL, JSP, JSON
-8. 기술 : 깃허브(소스코드 공유), AWS EC2 (Ubuntu Server), 포트포워딩
+1. 주언어: JAVA\
+2. 데이터베이스 : 오라클 , Mybatis
+3. 프레임워크 : Spring MVC, Bootstrap 
+4. API : 카카오지도, 구글이메일, 네이버로그인
+5. 언어 : Html, css, JS, jquery, Ajax, JSTL, JSP, JSON
+6. 기술 : 깃허브(소스코드 공유), AWS EC2 (Ubuntu Server), 포트포워딩
 
