@@ -30,7 +30,7 @@
 
 #### ERD
 ![image](https://github.com/user-attachments/assets/32a82f50-c5a1-43fa-80b9-f3264b27cfad)
-#### WEB Page
+#### 주요 WEB Page
 ![image](https://github.com/user-attachments/assets/a3d5ffbd-1f8f-4db5-a6fe-205ae4723c5b)
 
 
