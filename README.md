@@ -3,11 +3,6 @@
 - 종류별 레시피를 검색하고 강남구의 식당을 지도로 검색할 수 있는 프로젝트입니다. 
 - AWS EC2, 깃허브, 포트포워딩을 통해 배포하였습니다.
 ```
-#### ERD
-![image](https://github.com/user-attachments/assets/32a82f50-c5a1-43fa-80b9-f3264b27cfad)
-#### WEB Page
-![image](https://github.com/user-attachments/assets/a3d5ffbd-1f8f-4db5-a6fe-205ae4723c5b)
-
 #### 기능구현
 ```
 1.메인페이지 
@@ -31,3 +26,10 @@
 5. 언어 : Html, css, JS, jquery, Ajax, JSTL, JSP, JSON
 6. 기술 : 깃허브(소스코드 공유), AWS EC2 (Ubuntu Server), 포트포워딩
 ```
+
+#### ERD
+![image](https://github.com/user-attachments/assets/32a82f50-c5a1-43fa-80b9-f3264b27cfad)
+#### WEB Page
+![image](https://github.com/user-attachments/assets/a3d5ffbd-1f8f-4db5-a6fe-205ae4723c5b)
+
+
