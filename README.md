@@ -1,4 +1,5 @@
 #### [레시피와 식당정보]
+[프로젝트 PPT링크](https://github.com/LIMSCODE/Web_Recipe-Project/blob/master/%5B%EB%A0%88%EC%8B%9C%ED%94%BC%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_ppt%5D_%EC%9E%84%EC%9E%AC%EC%9D%B4_1.pdf)
 ```
 - 종류별 레시피를 검색하고 강남구의 식당을 지도로 검색할 수 있는 프로젝트입니다. 
 - AWS EC2, 깃허브, 포트포워딩을 통해 배포하였습니다.
